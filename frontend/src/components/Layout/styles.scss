@@ -1,0 +1,39 @@
+@use "../../styles/variables" as v;
+
+.app-shell {
+	display: flex;
+}
+
+.layout {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+	padding: 25px;
+
+	&.layout--medium {
+		max-width: 1200px;
+		margin: 0 auto;
+	}
+
+	&.layout--small {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+
+	.layout__header {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		margin-bottom: 15px;
+
+		.layout__title {
+			font-size: 1.5rem;
+			font-weight: 700;
+		}
+
+		.layout__subtitle {
+			color: v.$color-subtext;
+		}
+	}
+}

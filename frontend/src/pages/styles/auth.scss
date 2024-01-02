@@ -1,0 +1,62 @@
+@use "../../styles/variables" as v;
+
+.auth {
+	height: 100vh;
+	width: 100vw;
+
+	form {
+		max-width: 400px;
+		margin-top: 30px;
+		margin-bottom: 15px;
+	}
+
+	.auth-container {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.auth__pane {
+		height: 100vh;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.auth-right {
+		background-color: v.$color-accent;
+		color: v.$color-text;
+	}
+
+	.auth__title {
+		text-align: left;
+		margin-bottom: 10px;
+		max-width: 400px;
+		width: 100%;
+		font-size: 1.7rem;
+		font-weight: 500;
+	}
+
+	.auth__subtitle {
+		text-align: left;
+		max-width: 400px;
+		width: 100%;
+		font-size: 1rem;
+		font-weight: 400;
+		line-height: 1.5;
+		color: v.$color-subtext;
+	}
+
+	.auth__links {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		text-align: left;
+		width: 100%;
+		max-width: 400px;
+	}
+
+	.auth__link {
+	}
+}

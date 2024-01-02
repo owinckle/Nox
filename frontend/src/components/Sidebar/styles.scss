@@ -1,0 +1,113 @@
+@use "../../styles/variables" as v;
+
+.sidebar {
+	width: calc(250px - 1px - 30px);
+	height: calc(100vh - 30px);
+	background-color: v.$color-bg-primary;
+	border-right: 1px solid v.$color-border;
+	padding: 15px;
+	user-select: none;
+	overflow-y: auto;
+
+	.sidebar__header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 30px;
+
+		.sidebar__header__logo {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			background-color: v.$color-bg-secondary;
+			display: flex;
+		}
+
+		.sidebar__header__text {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+
+			.sidebar__header__title {
+				font-size: 1.2rem;
+				font-weight: 600;
+				color: v.$color-text;
+			}
+
+			.sidebar__header__subtitle {
+				font-size: 0.9rem;
+				color: v.$color-subtext;
+			}
+		}
+	}
+
+	.sidebar__item {
+		padding: 10px;
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		border-radius: v.$border-radius;
+		transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+		cursor: pointer;
+		color: v.$color-subtext;
+
+		&:hover {
+			background-color: v.$color-bg-secondary;
+			color: v.$color-text;
+		}
+
+		&.active {
+			background-color: v.$color-bg-secondary;
+			color: v.$color-text;
+		}
+
+		svg {
+			font-size: 1.2rem;
+		}
+
+		.sidebar__item__label {
+			font-size: 0.9rem;
+			font-weight: 600;
+		}
+	}
+
+	.sidebar__section {
+		margin-bottom: 15px;
+
+		.sidebar__section__header {
+			padding: 10px;
+			font-size: 0.9rem;
+			font-weight: 600;
+			color: v.$color-subtext;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			cursor: pointer;
+			border-radius: v.$border-radius;
+			transition: background-color 0.2s ease-in-out,
+				color 0.2s ease-in-out;
+
+			&:hover {
+				background-color: v.$color-bg-secondary;
+				color: v.$color-text;
+			}
+
+			.sidebar__section__collapse-icon {
+				font-size: 0.9rem;
+				transition: transform 0.2s ease-in-out;
+
+				&.collapsed {
+					transform: rotate(-90deg);
+				}
+			}
+		}
+
+		.sidebar__section__content {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			overflow: hidden;
+			transition: height 0.2s ease-in-out;
+		}
+	}
+}

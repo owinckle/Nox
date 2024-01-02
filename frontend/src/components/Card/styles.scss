@@ -1,0 +1,21 @@
+@use "../../styles/variables" as v;
+
+.card {
+	background-color: v.$color-bg-secondary;
+	border-radius: v.$border-radius;
+	border: 1px solid v.$color-border;
+	padding: 15px;
+
+	.card__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding-bottom: 15px;
+
+		.card__title {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: v.$color-text;
+		}
+	}
+}

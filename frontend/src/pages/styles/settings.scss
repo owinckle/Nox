@@ -1,0 +1,9 @@
+@use "../../styles/variables" as v;
+
+.settings {
+	form {
+		.button {
+			width: fit-content;
+		}
+	}
+}

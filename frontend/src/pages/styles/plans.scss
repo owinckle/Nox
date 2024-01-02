@@ -1,0 +1,29 @@
+@use "../../styles/variables.scss" as v;
+
+.plans {
+	.plan__list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 50%));
+		gap: 25px;
+
+		.plan__price {
+			font-size: 1.5rem;
+			font-weight: 600;
+		}
+
+		.plan__description {
+			margin-top: 15px;
+			color: v.$color-subtext;
+		}
+
+		.plan__features {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin: 10px 0;
+
+			.plan__feature {
+			}
+		}
+	}
+}
