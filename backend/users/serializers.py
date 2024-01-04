@@ -6,10 +6,14 @@ User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
 	current_plan = serializers.SerializerMethodField()
+	name = serializers.SerializerMethodField()
 
 	class Meta:
 		model = User
-		fields = ("id", "email", "current_plan")
+		fields = ("id", "name", "email", "current_plan")
+
+	def get_name(self, obj):
+		return obj.first_name
 
 	def get_current_plan(self, obj):
 		try:

@@ -22,7 +22,7 @@ class UserSubscription(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	stripe_subscription_id = models.CharField(max_length=255, blank=True)
 	stripe_customer_id = models.CharField(max_length=255, blank=True)
-	plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True)
+	plan = models.ForeignKey(Plan, on_delete=models.SET_NULL, null=True, blank=True)
 	status = models.CharField(max_length=100, choices=STATUS)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)

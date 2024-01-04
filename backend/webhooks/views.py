@@ -1,8 +1,7 @@
-# webhooks/views.py
 import json
 import stripe
+import logging
 from decouple import config
-from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -13,19 +12,27 @@ from subscriptions.models import Plan, UserSubscription
 # Configure Stripe with your secret key
 stripe.api_key = config("STRIPE_SECRET_KEY")
 
+# Set up logging
+logger = logging.getLogger(__name__)
+
 
 def handle_payment_intent_succeeded(payment_intent):
-	print("PaymentIntent was successful!")
+	logger.info("PaymentIntent was successful!")
 
 
 def handle_subscription_created(subscription):
-	print("Subscription was successful!")
+	logger.info("[Handle Subscription Created] Subscription was successful!")
 	try:
-		user = User.objects.get(email=subscription["customer_email"])
 		plan = Plan.objects.get(price_id=subscription["plan"]["id"])
-	except:
-		pass
-	return HttpResponse(status=400, content="Something went wrong")
+		user_subscription = UserSubscription.objects.get(stripe_customer_id=subscription["customer"])
+		user_subscription.status = "active"
+		user_subscription.stripe_subscription_id = subscription["id"]
+		user_subscription.plan = plan
+		user_subscription.save()
+		return HttpResponse(status=201, content="Subscription created")
+	except Exception as e:
+		logger.error("Something went wrong (webhooks/views.py) -> %s", str(e))
+		return HttpResponse(status=400, content="Something went wrong")
 
 
 EVENT_HANDLLERS = {
@@ -52,11 +59,15 @@ class StripeWebhook(APIView):
 			if handler:
 				handler(event["data"]["object"])
 			else:
-				print(f"Unhandled event type {event['type']}")
+				# Unhandled event
+				logger.info("Unhandled event type %s", event["type"])
 			return HttpResponse(status=200)
 		except ValueError as e:
+			logger.error("Invalid payload: %s", str(e))
 			return HttpResponse(status=400, content="Invalid payload")
 		except stripe.error.SignatureVerificationError as e:
+			logger.error("Invalid signature: %s", str(e))
 			return HttpResponse(status=400, content="Invalid signature")
 		except Exception as e:
+			logger.error("Webhook handler failed: %s", str(e))
 			return HttpResponse(status=400, content="Webhook handler failed")

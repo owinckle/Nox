@@ -7,13 +7,14 @@ import { Form, FormGroup } from "../components/Form";
 const RegisterPage = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
+	const [name, setName] = useState<string>("");
 	const { register } = useAuth();
 
 	const registerHandler = async (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
 
 		try {
-			await register(email, password);
+			await register(name, email, password);
 		} catch (error) {
 			console.error("Register error:", error);
 		}
@@ -31,6 +32,14 @@ const RegisterPage = () => {
 
 					<Form onSubmit={registerHandler} submitLabel="Sign up">
 						<FormGroup
+							label="Name"
+							type="text"
+							placeholder="Enter your name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+
+						<FormGroup
 							label="E-mail"
 							type="email"
 							placeholder="Enter your email"
@@ -38,11 +47,11 @@ const RegisterPage = () => {
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<FormGroup
+							label="Password"
 							type="password"
 							placeholder="••••••••••"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							label="Password"
 						/>
 					</Form>
 

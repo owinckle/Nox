@@ -42,7 +42,7 @@ class CreateCheckoutSessionView(APIView):
 					"quantity": 1,
 				}],
 				mode="subscription",
-				success_url=config("DOMAIN") + "/success?session_id={CHECKOUT_SESSION_ID}",
+				success_url=config("DOMAIN") + "/plans?session_id={CHECKOUT_SESSION_ID}",
 				cancel_url=config("DOMAIN") + "/plans", 
 				customer=stripe_customer_id
 			)

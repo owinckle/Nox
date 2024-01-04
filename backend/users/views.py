@@ -18,7 +18,7 @@ stripe.api_key = config("STRIPE_SECRET_KEY")
 class  UserRegistrationAPIView(APIView):
 	def post(self, request):
 		user_data = request.data
-
+	
 		if User.objects.filter(email=user_data["email"]).exists():
 			return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -26,12 +26,17 @@ class  UserRegistrationAPIView(APIView):
 			user = User.objects.create_user(
 				user_data["email"], # Set the email as the username
 				user_data["email"],
-				user_data["password"]
+				user_data["password"],
 			)
 
+			user.first_name = user_data["name"]
+			user.save()
+
+			free_plan = Plan.objects.get(name="Free")
 			stripe_customer = stripe.Customer.create(email=user_data["email"])
 			UserSubscription.objects.create(
 				user=user,
+				plan=free_plan,
 				stripe_customer_id=stripe_customer["id"],
 				status="active"
 			)
@@ -51,8 +56,8 @@ class UserLoginAPIView(APIView):
 		if user:
 			token, _ = Token.objects.get_or_create(user=user)
 			user_subscription = UserSubscription.objects.get(user=user)
-			plan = user_subscription.plan.name or "Free"
-			return Response({"token": token.key, "email": user.email, "plan": plan}, status=status.HTTP_200_OK)
+			plan = user_subscription.plan.name if user_subscription.plan else "Free"
+			return Response({"token": token.key, "email": user.email, "name": user.first_name, "plan": plan}, status=status.HTTP_200_OK)
 
 		return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 

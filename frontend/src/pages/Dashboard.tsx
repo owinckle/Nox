@@ -13,7 +13,7 @@ import { MdOutlinePayment } from "react-icons/md";
 import useModals from "../hooks/useModals";
 
 const Dashboard = () => {
-	const { logout } = useAuth();
+	const { user, logout } = useAuth();
 	const modals = useModals();
 
 	return (
@@ -22,7 +22,7 @@ const Dashboard = () => {
 				<SidebarHeader
 					logo="https://i.gyazo.com/047076012ad802f9e016fc92ac439ad7.png"
 					title="Nox"
-					subtitle="Welcome back, John Doe!"
+					subtitle={`Welcome back, ${user.name}!`}
 				/>
 
 				<SidebarSection name="General" noHeader>

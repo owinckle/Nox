@@ -77,7 +77,7 @@ const Plans = () => {
 				<SidebarHeader
 					logo="https://i.gyazo.com/047076012ad802f9e016fc92ac439ad7.png"
 					title="Nox"
-					subtitle="Welcome back, John Doe!"
+					subtitle={`Welcome back, ${user.name}!`}
 				/>
 
 				<SidebarSection name="General" noHeader>
@@ -114,8 +114,8 @@ const Plans = () => {
 					</LayoutSubtitle>
 				</LayoutHeader>
 				<div className="plan__list">
-					{plans.map((plan: any) => (
-						<Card key={plan.id} title={plan.name}>
+					{plans.map((plan: any, key: any) => (
+						<Card key={key} title={plan.name}>
 							<div className="plan__price">${plan.price}/mo</div>
 							<div className="plan__description">
 								Included in the plan:
@@ -129,11 +129,19 @@ const Plans = () => {
 										</div>
 									))}
 							</div>
-							<Button
-								onClick={() => handleCheckout(plan.price_id)}
-							>
-								Select plan
-							</Button>
+							{user.plan === plan.name ? (
+								<Button onClick={() => null} variant="disabled">
+									Current
+								</Button>
+							) : (
+								<Button
+									onClick={() =>
+										handleCheckout(plan.price_id)
+									}
+								>
+									Select plan
+								</Button>
+							)}
 						</Card>
 					))}
 				</div>

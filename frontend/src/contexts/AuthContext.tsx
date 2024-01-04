@@ -7,7 +7,7 @@ type AuthContextType = {
 	user: any;
 	login: (email: string, password: string) => Promise<void>;
 	logout: () => void;
-	register: (email: string, password: string) => Promise<void>;
+	register: (name: string, email: string, password: string) => Promise<void>;
 	updateProfile: (
 		email: string,
 		newPassword: string,
@@ -54,7 +54,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			}
 
 			const data = await response.json();
-			setUser({ email: data.email, plan: data.current_plan });
+			setUser({
+				name: data.name,
+				email: data.email,
+				plan: data.current_plan,
+			});
 			if (loading) {
 				setCloseLoader(true);
 				setTimeout(() => setLoading(false), 300);
@@ -85,7 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 			const data = await response.json();
 			localStorage.setItem("token", data.token);
-			setUser({ email: data.email, plan: data.plan });
+			setUser({ name: data.name, email: data.email, plan: data.plan });
 		} catch (error) {
 			console.error("Login error:", error);
 			// Consider how you might surface these errors in your UI
@@ -97,7 +101,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		setUser(null);
 	};
 
-	const register = async (email: string, password: string) => {
+	const register = async (name: string, email: string, password: string) => {
 		try {
 			const response = await fetch(
 				`${import.meta.env.VITE_API_BASE_URL}/auth/register/`,
@@ -106,7 +110,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 					headers: {
 						"Content-Type": "application/json",
 					},
-					body: JSON.stringify({ email, password }),
+					body: JSON.stringify({ name, email, password }),
 				}
 			);
 
@@ -166,7 +170,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		>
 			{children}
 			<ToastContainer
-				position="top-right"
+				position="top-center"
 				className="toast-container"
 				theme="dark"
 				autoClose={5000}
