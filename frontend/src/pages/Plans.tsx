@@ -71,6 +71,11 @@ const Plans = () => {
 		}
 	};
 
+	// A function to cancel the subscription
+	const cancelSubscription = async () => {};
+
+	// A function to change plan
+
 	return (
 		<AppShell>
 			<Sidebar>
@@ -108,12 +113,12 @@ const Plans = () => {
 				<LayoutHeader>
 					<LayoutTitle>Plans</LayoutTitle>
 					<LayoutSubtitle>
-						{user.plan === "Free"
+						{user.subscription.plan === "Free"
 							? "You are currently on the free plan, upgrade to unlock more features!"
-							: `You are currently subscribed to the ${user.plan} plan`}
+							: `You are currently subscribed to the ${user.subscription.plan} plan`}
 					</LayoutSubtitle>
 				</LayoutHeader>
-				<div className="plan__list">
+				<div className="plan__list plans--3">
 					{plans.map((plan: any, key: any) => (
 						<Card key={key} title={plan.name}>
 							<div className="plan__price">${plan.price}/mo</div>
@@ -129,8 +134,28 @@ const Plans = () => {
 										</div>
 									))}
 							</div>
-							{user.plan === plan.name ? (
-								<Button onClick={() => null} variant="disabled">
+							{user.subscription.plan === plan.name &&
+							user.subscription.plan !== "Free" ? (
+								<Button onClick={() => null} variant="danger">
+									Cancel
+								</Button>
+							) : user.subscription.plan !== "Free" &&
+							  plan.name === "Free" ? (
+								<Button
+									onClick={() =>
+										handleCheckout(plan.price_id)
+									}
+									variant="disabled"
+								>
+									Cancel your current subscription instead
+								</Button>
+							) : user.subscription.plan === "Free" &&
+							  plan.name === "Free" ? (
+								<Button
+									onClick={() =>
+										handleCheckout(plan.price_id)
+									}
+								>
 									Current
 								</Button>
 							) : (
@@ -139,7 +164,7 @@ const Plans = () => {
 										handleCheckout(plan.price_id)
 									}
 								>
-									Select plan
+									Upgrade
 								</Button>
 							)}
 						</Card>

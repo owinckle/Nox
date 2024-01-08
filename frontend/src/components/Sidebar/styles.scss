@@ -57,8 +57,8 @@
 		}
 
 		&.active {
-			background-color: v.$color-bg-secondary;
-			color: v.$color-text;
+			background-color: transparentize(v.$color-accent, 0.9);
+			color: v.$color-accent;
 		}
 
 		svg {

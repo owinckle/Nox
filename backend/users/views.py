@@ -57,7 +57,8 @@ class UserLoginAPIView(APIView):
 			token, _ = Token.objects.get_or_create(user=user)
 			user_subscription = UserSubscription.objects.get(user=user)
 			plan = user_subscription.plan.name if user_subscription.plan else "Free"
-			return Response({"token": token.key, "email": user.email, "name": user.first_name, "plan": plan}, status=status.HTTP_200_OK)
+
+			return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
 
 		return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -70,14 +71,19 @@ class UserProfileAPIView(APIView):
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
 	def put(self, request):
+		name = request.data.get("name")
 		email = request.data.get("email")
 		new_password = request.data.get("new_password")
 		current_password = request.data.get("current_password")
 		user = request.user
 
+		print(current_password)
+
 		if not user.check_password(current_password):
 			return Response({"error": "Invalid Password"}, status=status.HTTP_400_BAD_REQUEST)
 
+		if name:
+			user.first_name = name
 		if email:
 			user.email = email
 		if new_password:

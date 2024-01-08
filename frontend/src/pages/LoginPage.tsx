@@ -36,6 +36,7 @@ const LoginPages = () => {
 							placeholder="Enter your email"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
+							autoFocus
 						/>
 						<FormGroup
 							label="Password"

@@ -18,4 +18,23 @@
 			color: v.$color-text;
 		}
 	}
+
+	.card__body {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+
+		.card__row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.card__row__label {
+				color: v.$color-subtext;
+			}
+
+			.card__row__value {
+			}
+		}
+	}
 }

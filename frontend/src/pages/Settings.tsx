@@ -16,7 +16,7 @@ import { FiHome } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import useAuth from "../hooks/useAuth";
-import { Card } from "../components/Card";
+import { Card, CardRow } from "../components/Card";
 import { Form, FormGroup } from "../components/Form";
 import { useState } from "react";
 import Button from "../components/Button";
@@ -27,14 +27,17 @@ const Settings = () => {
 	const navigate = useNavigate();
 
 	const { updateProfile, user, logout } = useAuth();
+	const [name, setName] = useState<string>(user.name);
 	const [email, setEmail] = useState<string>(user.email);
 	const [password, setPassword] = useState<string>("");
 	const [newPassword, setNewPassword] = useState<string>("");
 
 	const updateSettings = async (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
-		await updateProfile(email, newPassword, password);
+		await updateProfile(name, email, newPassword, password);
 	};
+
+	console.log(user);
 
 	return (
 		<AppShell>
@@ -76,10 +79,15 @@ const Settings = () => {
 					</LayoutSubtitle>
 				</LayoutHeader>
 				<Card title="Account">
-					<Form
-						onSubmit={updateSettings}
-						submitLabel="Update settings"
-					>
+					<Form onSubmit={updateSettings} submitLabel="Save">
+						<FormGroup
+							label="Name"
+							type="text"
+							placeholder="Name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+
 						<FormGroup
 							label="E-mail"
 							type="email"
@@ -107,8 +115,23 @@ const Settings = () => {
 				</Card>
 
 				<Card title="Subscriptions">
+					<CardRow
+						label="Current plan"
+						value={user.subscription.plan}
+					/>
+					<CardRow label="Status" value="Active" />
+
+					{user.plan !== "Free" && (
+						<CardRow
+							label="Next billing date"
+							value="September 1, 2021"
+						/>
+					)}
+
 					<Button onClick={() => navigate("/plans")}>
-						View plans
+						{user.plan === "Free"
+							? "Upgrade"
+							: "Update your subscription"}
 					</Button>
 				</Card>
 			</LayoutSmall>

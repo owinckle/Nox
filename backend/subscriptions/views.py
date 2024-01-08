@@ -17,7 +17,7 @@ stripe.api_key = config("STRIPE_SECRET_KEY")
 class CreateCheckoutSessionView(APIView):
 	permission_classes = [IsAuthenticated]
 
-	def post(self, request, *args, **kwargs):
+	def post(self, request):
 		price_id = request.data.get("price_id")
 
 		try:
@@ -53,7 +53,30 @@ class CreateCheckoutSessionView(APIView):
 
 
 class GetPlans(APIView):
-	def get(self, request, format=None):
+	def get(self, request):
 		plans = Plan.objects.all()
 		serializer = PlanSerializer(plans, many=True)
 		return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class CancelSubscription(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request):
+		try:
+			user_subscription = UserSubscription.objects.get(user=request.user, status="active")
+			if user_subscription.stripe_subscription_id:
+				# Cancel the subscription at the end of the current billing period
+				stripe.Subscription.modify(
+					user_subscription.stripe_subscription_id,
+					cancel_at_period_end=True
+				)
+				user_subscription.status = "canceled"
+				user_subscription.save()
+				return Response({"message": "Your subscription will be canceled at the end of the billing period."})
+			else:
+				return Response({"error": "No active subscription found."}, status=status.HTTP_404_NOT_FOUND)
+		except UserSubscription.DoesNotExist:
+			return Response({"error": "Subscription not found."}, status=status.HTTP_404_NOT_FOUND)
+		except Exception as e:
+			return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

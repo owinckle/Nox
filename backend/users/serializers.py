@@ -1,25 +1,24 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from subscriptions.models import UserSubscription
+from subscriptions.serializers import UserSubscriptionSerializer
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
-	current_plan = serializers.SerializerMethodField()
 	name = serializers.SerializerMethodField()
+	subscription = serializers.SerializerMethodField()
 
 	class Meta:
 		model = User
-		fields = ("id", "name", "email", "current_plan")
+		fields = ("id", "name", "email", "subscription")
 
 	def get_name(self, obj):
 		return obj.first_name
 
-	def get_current_plan(self, obj):
+	def get_subscription(self, obj):
 		try:
 			subscription = UserSubscription.objects.get(user=obj)
-			if subscription and subscription.plan:
-				return subscription.plan.name
+			return UserSubscriptionSerializer(subscription).data
 		except UserSubscription.DoesNotExist:
-			pass
-		return "Free"
+			return None

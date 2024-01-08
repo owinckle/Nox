@@ -23,6 +23,7 @@ interface FormGroupProps {
 	placeholder: string;
 	value: string;
 	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	autoFocus?: boolean;
 	children?: React.ReactNode;
 }
 
@@ -32,6 +33,7 @@ export const FormGroup = ({
 	placeholder,
 	value,
 	onChange,
+	autoFocus,
 	children,
 }: FormGroupProps) => {
 	return (
@@ -42,6 +44,7 @@ export const FormGroup = ({
 				placeholder={placeholder}
 				value={value}
 				onChange={onChange}
+				autoFocus={autoFocus}
 			/>
 
 			{children}

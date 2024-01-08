@@ -20,3 +20,17 @@ export const Card = ({ title, className, noHeader, children }: CardProps) => {
 		</div>
 	);
 };
+
+interface CardRowProps {
+	label: string;
+	value: string;
+}
+
+export const CardRow = ({ label, value }: CardRowProps) => {
+	return (
+		<div className="card__row">
+			<div className="card__row__label">{label}</div>
+			<div className="card__row__value">{value}</div>
+		</div>
+	);
+};

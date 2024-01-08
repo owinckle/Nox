@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, ReactNode } from "react";
 import Loader from "../components/Loader";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
+import useRequest, { usePublicRequest } from "../hooks/useRequest";
 
 type AuthContextType = {
 	isAuthenticated: boolean;
@@ -9,6 +10,7 @@ type AuthContextType = {
 	logout: () => void;
 	register: (name: string, email: string, password: string) => Promise<void>;
 	updateProfile: (
+		name: string,
 		email: string,
 		newPassword: string,
 		password: string
@@ -37,63 +39,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	}, [user]);
 
 	const getProfile = async () => {
-		try {
-			const response = await fetch(
-				`${import.meta.env.VITE_API_BASE_URL}/auth/profile/`,
-				{
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Token ${localStorage.getItem("token")}`,
-					},
+		useRequest("GET", "/auth/profile/", null)
+			.then((data) => {
+				setUser(data);
+				if (loading) {
+					setCloseLoader(true);
+					setTimeout(() => setLoading(false), 300);
 				}
-			);
-
-			if (!response.ok) {
-				throw new Error("Login failed with status: " + response.status);
-			}
-
-			const data = await response.json();
-			setUser({
-				name: data.name,
-				email: data.email,
-				plan: data.current_plan,
+			})
+			.catch((error) => {
+				console.error("Login error:", error);
+				localStorage.removeItem("token");
 			});
-			if (loading) {
-				setCloseLoader(true);
-				setTimeout(() => setLoading(false), 300);
-			}
-		} catch (error) {
-			console.error("Login error:", error);
-			localStorage.removeItem("token");
-		}
 	};
 
 	const login = async (email: string, password: string) => {
-		try {
-			const response = await fetch(
-				`${import.meta.env.VITE_API_BASE_URL}/auth/login/`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ email, password }),
-				}
-			);
+		const loginErrorCallback = (repsonse: Response) => {
+			toast.error("Invalid email or password.");
+			throw new Error("Login failed with status: " + repsonse.status);
+		};
 
-			if (!response.ok) {
-				toast.error("Invalid email or password.");
-				throw new Error("Login failed with status: " + response.status);
-			}
-
-			const data = await response.json();
-			localStorage.setItem("token", data.token);
-			setUser({ name: data.name, email: data.email, plan: data.plan });
-		} catch (error) {
-			console.error("Login error:", error);
-			// Consider how you might surface these errors in your UI
-		}
+		usePublicRequest(
+			"POST",
+			"/auth/login/",
+			{ email, password },
+			loginErrorCallback
+		)
+			.then((data) => {
+				localStorage.setItem("token", data.token);
+				setUser(data);
+			})
+			.catch((error) => {
+				console.error("Login error:", error);
+				// Consider how you might surface these errors in your UI
+			});
 	};
 
 	const logout = () => {
@@ -102,50 +81,64 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	};
 
 	const register = async (name: string, email: string, password: string) => {
-		try {
-			const response = await fetch(
-				`${import.meta.env.VITE_API_BASE_URL}/auth/register/`,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ name, email, password }),
-				}
+		const registerErrorCallback = (repsonse: Response) => {
+			toast.error("Something happened while creating your account.");
+			throw new Error(
+				"Registration failed with status: " + repsonse.status
 			);
+		};
 
-			if (!response.ok) {
-				toast.error("Something happened while creating your account.");
-				throw new Error(
-					"Registration failed with status: " + response.status
-				);
-			}
-
-			window.location.href = "/login";
-		} catch (error) {
-			console.error("Registration error:", error);
-		}
+		usePublicRequest(
+			"POST",
+			"/auth/register/",
+			{ name, email, password },
+			registerErrorCallback
+		)
+			.then(() => {
+				window.location.href = "/login";
+			})
+			.catch((error) => {
+				console.error("Registration error:", error);
+				// Consider how you might surface these errors in your UI
+			});
 	};
 
 	const updateProfile = async (
+		name: string,
 		email: string,
 		newPassword: string,
 		currentPassword: string
 	) => {
-		fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/profile/`, {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Token ${localStorage.getItem("token")}`,
-			},
-			body: JSON.stringify({
+		const updateErrorCallback = (repsonse: Response) => {
+			if (repsonse.status === 400) {
+				toast.error("Your password is incorrect.");
+			} else {
+				toast.error("Something happened while updating your profile.");
+			}
+			throw new Error("Update failed with status: " + repsonse.status);
+		};
+
+		useRequest(
+			"PUT",
+			"/auth/profile/",
+			{
+				name,
 				email,
 				new_password: newPassword,
 				current_password: currentPassword,
-			}),
-		});
+			},
+			updateErrorCallback
+		)
+			.then((data) => {
+				toast.success("Profile updated successfully.");
+				setUser(user);
+			})
+			.catch((error) => {
+				console.error("Profile update error:", error);
+				// Consider how you might surface these errors in your UI
+			});
 
-		await getProfile();
+		// await getProfile();
 	};
 
 	if (loading) {
@@ -169,13 +162,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			}}
 		>
 			{children}
-			<ToastContainer
-				position="top-center"
-				className="toast-container"
-				theme="dark"
-				autoClose={5000}
-				draggable={false}
-			/>
 		</AuthContext.Provider>
 	);
 };

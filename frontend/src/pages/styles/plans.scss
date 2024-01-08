@@ -3,8 +3,19 @@
 .plans {
 	.plan__list {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 50%));
 		gap: 25px;
+
+		&.plans--2 {
+			grid-template-columns: repeat(2, minmax(0, 50%));
+		}
+
+		&.plans--3 {
+			grid-template-columns: repeat(3, minmax(0, 33%));
+		}
+
+		&.plans--4 {
+			grid-template-columns: repeat(4, minmax(0, 25%));
+		}
 
 		.plan__price {
 			font-size: 1.5rem;
