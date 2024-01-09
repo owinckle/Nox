@@ -1,23 +1,12 @@
 import "./styles/plans.scss";
 import { useEffect, useState } from "react";
 import {
-	AppShell,
 	LayoutHeader,
 	LayoutMedium,
 	LayoutSubtitle,
 	LayoutTitle,
 } from "../components/Layout";
 import { Card } from "../components/Card";
-import {
-	Sidebar,
-	SidebarHeader,
-	SidebarItem,
-	SidebarSection,
-} from "../components/Sidebar";
-import { FiHome } from "react-icons/fi";
-import { IoSettingsOutline } from "react-icons/io5";
-import { IoMdLogOut } from "react-icons/io";
-import { MdOutlinePayment } from "react-icons/md";
 import useAuth from "../hooks/useAuth";
 import Button from "../components/Button";
 
@@ -114,158 +103,114 @@ const Plans = () => {
 	};
 
 	return (
-		<AppShell>
-			<Sidebar>
-				<SidebarHeader
-					logo="https://i.gyazo.com/047076012ad802f9e016fc92ac439ad7.png"
-					title="Nox"
-					subtitle={`Welcome back, ${user.name}!`}
-				/>
-
-				<SidebarSection name="General" noHeader>
-					<SidebarItem icon={<FiHome />} label="Home" target="/" />
-				</SidebarSection>
-
-				<SidebarSection name="Account" collapse>
-					<SidebarItem
-						icon={<IoSettingsOutline />}
-						label="Settings"
-						target="/settings"
-					/>
-					<SidebarItem
-						icon={<MdOutlinePayment />}
-						label="Plans"
-						target="/plans"
-						active
-					/>
-					<SidebarItem
-						icon={<IoMdLogOut />}
-						label="Logout"
-						onClick={logout}
-					/>
-				</SidebarSection>
-			</Sidebar>
-
-			<LayoutMedium className="plans">
-				<LayoutHeader>
-					<LayoutTitle>Plans</LayoutTitle>
-					<LayoutSubtitle>
-						{user.subscription.plan === "Free"
-							? "You are currently on the free plan, upgrade to unlock more features!"
-							: `You are currently subscribed to the ${user.subscription.plan} plan`}
-					</LayoutSubtitle>
-				</LayoutHeader>
-				<div className="plan__list plans--3">
-					{plans.map((plan: any, key: any) => (
-						<Card key={key} title={plan.name}>
-							<div className="plan__price">${plan.price}/mo</div>
-							<div className="plan__description">
-								Included in the plan:
-							</div>
-							<div className="plan__features">
-								{plan.features
-									.split("\n")
-									.map((feature: any, k: any) => (
-										<div key={k} className="plan__feature">
-											✓ {feature}
-										</div>
-									))}
-							</div>
-							{user.subscription.plan === plan.name &&
-							user.subscription.plan !== "Free" &&
-							user.subscription.status === "active" ? (
-								<Button
-									onClick={() =>
-										modals.open({
-											title: "Cancel subscription",
-											onSubmit: cancelSubscription,
-											body: (
-												<p>
-													Are you sure you want to
-													cancel your subscription?
-													You will lose access to all
-													premium features.
-												</p>
-											),
-											submitLabel: "Yes",
-											closeLabel: "Cancel",
-										})
-									}
-									variant="danger"
-								>
-									Cancel
-								</Button>
-							) : user.subscription.plan === plan.name &&
-							  user.subscription.plan !== "Free" &&
-							  user.subscription.status === "canceled" ? (
-								<Button
-									onClick={() =>
-										modals.open({
-											title: "Reactivate subscription",
-											onSubmit: reactivateSubscription,
-											body: (
-												<p>
-													Are you sure you want to
-													reactivate your
-													subscription?
-												</p>
-											),
-											submitLabel: "Yes",
-											closeLabel: "Cancel",
-										})
-									}
-									variant="success"
-								>
-									Reactivate
-								</Button>
-							) : user.subscription.plan !== "Free" &&
-							  plan.name === "Free" &&
-							  user.subscription.status === "canceled" ? (
-								<Button
-									onClick={() =>
-										handleCheckout(plan.price_id)
-									}
-									variant="disabled"
-								>
-									Your {user.subscription.plan} subscription
-									hasn't expired yet
-								</Button>
-							) : user.subscription.plan !== "Free" &&
-							  plan.name === "Free" &&
-							  user.subscription.status === "active" ? (
-								<Button
-									onClick={() =>
-										handleCheckout(plan.price_id)
-									}
-									variant="disabled"
-								>
-									Cancel your current subscription instead
-								</Button>
-							) : user.subscription.plan === "Free" &&
-							  plan.name === "Free" ? (
-								<Button
-									onClick={() =>
-										handleCheckout(plan.price_id)
-									}
-								>
-									Current
-								</Button>
-							) : (
-								<Button
-									onClick={() =>
-										handleCheckout(plan.price_id)
-									}
-								>
-									{user.subscription.plan === "Free"
-										? "Upgrade"
-										: "Select"}
-								</Button>
-							)}
-						</Card>
-					))}
-				</div>
-			</LayoutMedium>
-		</AppShell>
+		<LayoutMedium className="plans">
+			<LayoutHeader>
+				<LayoutTitle>Plans</LayoutTitle>
+				<LayoutSubtitle>
+					{user.subscription.plan === "Free"
+						? "You are currently on the free plan, upgrade to unlock more features!"
+						: `You are currently subscribed to the ${user.subscription.plan} plan`}
+				</LayoutSubtitle>
+			</LayoutHeader>
+			<div className="plan__list plans--3">
+				{plans.map((plan: any, key: any) => (
+					<Card key={key} title={plan.name}>
+						<div className="plan__price">${plan.price}/mo</div>
+						<div className="plan__description">
+							Included in the plan:
+						</div>
+						<div className="plan__features">
+							{plan.features
+								.split("\n")
+								.map((feature: any, k: any) => (
+									<div key={k} className="plan__feature">
+										✓ {feature}
+									</div>
+								))}
+						</div>
+						{user.subscription.plan === plan.name &&
+						user.subscription.plan !== "Free" &&
+						user.subscription.status === "active" ? (
+							<Button
+								onClick={() =>
+									modals.open({
+										title: "Cancel subscription",
+										onSubmit: cancelSubscription,
+										body: (
+											<p>
+												Are you sure you want to cancel
+												your subscription? You will lose
+												access to all premium features.
+											</p>
+										),
+										submitLabel: "Yes",
+										closeLabel: "Cancel",
+									})
+								}
+								variant="danger"
+							>
+								Cancel
+							</Button>
+						) : user.subscription.plan === plan.name &&
+						  user.subscription.plan !== "Free" &&
+						  user.subscription.status === "canceled" ? (
+							<Button
+								onClick={() =>
+									modals.open({
+										title: "Reactivate subscription",
+										onSubmit: reactivateSubscription,
+										body: (
+											<p>
+												Are you sure you want to
+												reactivate your subscription?
+											</p>
+										),
+										submitLabel: "Yes",
+										closeLabel: "Cancel",
+									})
+								}
+								variant="success"
+							>
+								Reactivate
+							</Button>
+						) : user.subscription.plan !== "Free" &&
+						  plan.name === "Free" &&
+						  user.subscription.status === "canceled" ? (
+							<Button variant="disabled">
+								Your {user.subscription.plan} subscription
+								hasn't expired yet
+							</Button>
+						) : user.subscription.plan !== "Free" &&
+						  plan.name === "Free" &&
+						  user.subscription.status === "active" ? (
+							<Button variant="disabled">
+								Cancel your current subscription instead
+							</Button>
+						) : user.subscription.plan === "Free" &&
+						  plan.name === "Free" ? (
+							<Button
+								onClick={() => handleCheckout(plan.price_id)}
+							>
+								Current
+							</Button>
+						) : user.subscription.status === "canceled" &&
+						  plan.name !== "Free" ? (
+							<Button variant="disabled">
+								Reactivate your {plan.name} subscription
+							</Button>
+						) : (
+							<Button
+								onClick={() => handleCheckout(plan.price_id)}
+							>
+								{user.subscription.plan === "Free"
+									? "Upgrade"
+									: "Select"}
+							</Button>
+						)}
+					</Card>
+				))}
+			</div>
+		</LayoutMedium>
 	);
 };
 

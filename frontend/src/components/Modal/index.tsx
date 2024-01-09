@@ -63,8 +63,12 @@ const Modal = ({
 				</div>
 				<div className="modal__body">{children}</div>
 				<div className="modal__footer">
-					<Button onClick={submitHandler}>{submitLabel}</Button>
-					<Button onClick={closeHandler}>{closeLabel}</Button>
+					<Button onClick={submitHandler} variant="success">
+						{submitLabel}
+					</Button>
+					<Button onClick={closeHandler} variant="danger">
+						{closeLabel}
+					</Button>
 				</div>
 			</div>
 		</>

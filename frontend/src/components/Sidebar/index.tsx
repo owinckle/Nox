@@ -1,7 +1,7 @@
 import "./styles.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface SidebarProps {
 	children?: React.ReactNode;
@@ -36,7 +36,6 @@ export const SidebarHeader = ({
 interface SidebarItemProps {
 	icon?: React.ReactNode;
 	label: string;
-	active?: boolean;
 	target?: string;
 	onClick?: () => void | false;
 }
@@ -44,21 +43,26 @@ interface SidebarItemProps {
 export const SidebarItem = ({
 	icon,
 	label,
-	active,
 	target,
 	onClick,
 }: SidebarItemProps) => {
 	if (onClick) {
 		return (
-			<div
-				className={`sidebar__item ${active && "active"}`}
-				onClick={onClick}
-			>
+			<div className="sidebar__item" onClick={onClick}>
 				{icon}
 				<div className="sidebar__item__label">{label}</div>
 			</div>
 		);
 	} else if (target) {
+		const [active, setActive] = useState<boolean>(false);
+		const location = useLocation();
+
+		useEffect(() => {
+			// Get the path but remove the last / if any
+			const pathStripped = location.pathname.replace(/\/$/, "");
+			setActive(location.pathname === target || pathStripped === target);
+		}, [location, target]);
+
 		return (
 			<Link to={target} className={`sidebar__item ${active && "active"}`}>
 				{icon}
@@ -82,27 +86,14 @@ export const SidebarSection = ({
 	children,
 }: SidebarSectionProps) => {
 	const [collapsed, setCollapsed] = useState<boolean>(false);
+	const [height, setHeight] = useState<string | number>(0);
 	const contentRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		if (collapse) {
-			const content = contentRef.current;
-			if (!content) return;
-
-			if (collapsed) {
-				content.style.height = `${content.scrollHeight}px`;
-				void content.offsetHeight;
-				content.style.height = "0px";
-			} else {
-				content.style.height = `${content.scrollHeight}px`;
-				const transitionEnd = () => {
-					content.style.height = "auto";
-					content.removeEventListener("transitionend", transitionEnd);
-				};
-				content.addEventListener("transitionend", transitionEnd);
-			}
+		if (collapse && contentRef.current) {
+			setHeight(collapsed ? 0 : contentRef.current.scrollHeight);
 		}
-	}, [collapsed]);
+	}, [collapsed, collapse]);
 
 	return (
 		<div className="sidebar__section">
@@ -121,7 +112,14 @@ export const SidebarSection = ({
 					)}
 				</div>
 			)}
-			<div className="sidebar__section__content" ref={contentRef}>
+			<div
+				className="sidebar__section__content"
+				ref={contentRef}
+				style={{
+					height: collapse ? height : "auto",
+					overflow: "hidden",
+				}}
+			>
 				{children}
 			</div>
 		</div>

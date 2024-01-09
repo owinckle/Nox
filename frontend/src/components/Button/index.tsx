@@ -1,7 +1,7 @@
 import "./styles.scss";
 
 interface ButtonProps {
-	onClick: () => void;
+	onClick?: () => void;
 	variant?: "danger" | "success" | "warning" | "disabled";
 	children: React.ReactNode;
 }
