@@ -6,6 +6,7 @@ import useRequest, { usePublicRequest } from "../hooks/useRequest";
 type AuthContextType = {
 	isAuthenticated: boolean;
 	user: any;
+	getProfile: () => Promise<void>;
 	login: (email: string, password: string) => Promise<void>;
 	logout: () => void;
 	register: (name: string, email: string, password: string) => Promise<void>;
@@ -67,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		)
 			.then((data) => {
 				localStorage.setItem("token", data.token);
-				setUser(data);
+				setUser(data.user);
 			})
 			.catch((error) => {
 				console.error("Login error:", error);
@@ -155,6 +156,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			value={{
 				isAuthenticated: !!user,
 				user,
+				getProfile,
 				login,
 				logout,
 				register,

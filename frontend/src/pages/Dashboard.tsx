@@ -10,11 +10,9 @@ import { IoMdLogOut } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import useAuth from "../hooks/useAuth";
 import { MdOutlinePayment } from "react-icons/md";
-import useModals from "../hooks/useModals";
 
 const Dashboard = () => {
 	const { user, logout } = useAuth();
-	const modals = useModals();
 
 	return (
 		<AppShell>
@@ -31,17 +29,6 @@ const Dashboard = () => {
 						label="Home"
 						active
 						target="/"
-					/>
-					<SidebarItem
-						icon={<FiHome />}
-						label="Modal"
-						onClick={() =>
-							modals.open({
-								title: "Hello World!",
-								body: <div>Hello World!</div>,
-								onSubmit: () => console.log("Submit!"),
-							})
-						}
 					/>
 				</SidebarSection>
 

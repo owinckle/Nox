@@ -80,3 +80,58 @@ class CancelSubscription(APIView):
 			return Response({"error": "Subscription not found."}, status=status.HTTP_404_NOT_FOUND)
 		except Exception as e:
 			return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+		
+
+class ReactivateSubscription(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request):
+		try:
+			user_subscription = UserSubscription.objects.get(user=request.user, status="canceled")
+			if user_subscription.stripe_subscription_id:
+				# Reactivate the subscription
+				stripe.Subscription.modify(
+					user_subscription.stripe_subscription_id,
+					cancel_at_period_end=False
+				)
+				user_subscription.status = "active"
+				user_subscription.save()
+				return Response({"message": "Your subscription has been reactivated."})
+			else:
+				return Response({"error": "No canceled subscription found."}, status=status.HTTP_404_NOT_FOUND)
+		except UserSubscription.DoesNotExist:
+			return Response({"error": "Subscription not found."}, status=status.HTTP_404_NOT_FOUND)
+		except Exception as e:
+			return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+		
+
+class ChangeSubscription(APIView):
+	permission_classes = [IsAuthenticated]
+
+	def post(self, request):
+		price_id = request.data.get("price_id")
+		try:
+			user_subscription = UserSubscription.objects.get(user=request.user, status="active")
+			if user_subscription.stripe_subscription_id:
+				subscription = stripe.Subscription.retrieve(user_subscription.stripe_subscription_id)
+				current_item_id = subscription["items"]["data"][0].id
+				stripe.Subscription.modify(
+					user_subscription.stripe_subscription_id,
+					cancel_at_period_end=False,
+					proration_behavior="create_prorations",
+					items=[{
+						"id": current_item_id,
+						"price": price_id,
+					}]
+				)
+				new_plan = Plan.objects.get(price_id=price_id)
+				user_subscription.plan = new_plan
+				user_subscription.save()
+				return Response({"message": "Your subscription has been changed."})
+			else:
+				return Response({"error": "No active subscription found."}, status=status.HTTP_404_NOT_FOUND)
+		except UserSubscription.DoesNotExist:
+			return Response({"error": "Subscription not found."}, status=status.HTTP_404_NOT_FOUND)
+		except Exception as e:
+			print(str(e))
+			return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

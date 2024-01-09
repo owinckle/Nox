@@ -30,6 +30,10 @@
 	background-color: v.$color-bg-primary;
 }
 
+p {
+	line-height: 1.5;
+}
+
 body {
 	font-family: "Raleway", sans-serif;
 	background-color: v.$color-bg-primary;
@@ -92,11 +96,11 @@ input {
 
 // Toast
 :root {
-	--toastify-color-progress-success: #00c853 !important;
+	--toastify-color-progress-success: #00b14a !important;
 	--toastify-color-progress-warning: #ffb300 !important;
 	--toastify-color-progress-error: #f85555 !important;
 
-	--toastify-color-icon-success: #00c853 !important;
+	--toastify-color-icon-success: #00b14a !important;
 	--toastify-color-icon-warning: #ffb300 !important;
 	--toastify-color-icon-error: #f85555 !important;
 

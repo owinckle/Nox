@@ -55,10 +55,9 @@ class UserLoginAPIView(APIView):
 		user = authenticate(email=email, password=password)
 		if user:
 			token, _ = Token.objects.get_or_create(user=user)
-			user_subscription = UserSubscription.objects.get(user=user)
-			plan = user_subscription.plan.name if user_subscription.plan else "Free"
+			
 
-			return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+			return Response({"user": UserSerializer(user).data, "token": token.key}, status=status.HTTP_200_OK)
 
 		return Response({"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST)
 

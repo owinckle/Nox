@@ -55,6 +55,7 @@
 
 		.modal__title {
 			font-size: 1.1rem;
+			font-weight: 500;
 		}
 
 		.modal__close {
@@ -65,6 +66,12 @@
 				color: v.$color-danger;
 			}
 		}
+	}
+
+	.modal__body {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 
 	.modal__footer {

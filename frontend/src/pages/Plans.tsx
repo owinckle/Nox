@@ -22,13 +22,17 @@ import useAuth from "../hooks/useAuth";
 import Button from "../components/Button";
 
 import { loadStripe } from "@stripe/stripe-js";
+import useModals from "../hooks/useModals";
+import useRequest from "../hooks/useRequest";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(
 	import.meta.env.VITE_STRIPE_PUBLIC_KEY as string
 );
 
 const Plans = () => {
-	const { user, logout } = useAuth();
+	const { getProfile, user, logout } = useAuth();
+	const modals = useModals();
 
 	const [plans, setPlans] = useState<[]>([]);
 
@@ -45,36 +49,69 @@ const Plans = () => {
 	}, []);
 
 	const handleCheckout = async (priceId: string) => {
+		if (user.subscription.plan !== "Free") {
+			changePlan(priceId);
+			return;
+		}
+
 		const stripe = await stripePromise;
 
-		const response = await fetch(
-			`${import.meta.env.VITE_API_BASE_URL}/subscription/session/create/`,
+		const errorCallback = (response: Response) => {
+			toast.error("Something went wrong, please try again later.");
+		};
+
+		useRequest(
+			"POST",
+			"/subscription/session/create/",
 			{
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Token ${localStorage.getItem("token")}`,
-				},
-				body: JSON.stringify({ price_id: priceId }),
-			}
-		);
-
-		const session = await response.json();
-		console.log(session);
-
-		const result = await stripe?.redirectToCheckout({
-			sessionId: session.session_id,
-		});
-
-		if (result?.error) {
-			console.error(result.error.message);
-		}
+				price_id: priceId,
+			},
+			errorCallback
+		)
+			.then((data) => {
+				stripe?.redirectToCheckout({
+					sessionId: data.session_id,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
-	// A function to cancel the subscription
-	const cancelSubscription = async () => {};
+	const cancelSubscription = async () => {
+		useRequest("POST", "/subscription/cancel/", {})
+			.then(() => {
+				toast.success("Your subscription has been cancelled.");
+				getProfile();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
-	// A function to change plan
+	const reactivateSubscription = async () => {
+		useRequest("POST", "/subscription/reactivate/", {})
+			.then(() => {
+				toast.success("Your subscription has been reactivated.");
+				getProfile();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const changePlan = async (priceId: string) => {
+		useRequest("POST", "/subscription/change/", {
+			price_id: priceId,
+		})
+			.then(() => {
+				toast.success("Your subscription has been changed.");
+				getProfile();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<AppShell>
@@ -135,12 +172,67 @@ const Plans = () => {
 									))}
 							</div>
 							{user.subscription.plan === plan.name &&
-							user.subscription.plan !== "Free" ? (
-								<Button onClick={() => null} variant="danger">
+							user.subscription.plan !== "Free" &&
+							user.subscription.status === "active" ? (
+								<Button
+									onClick={() =>
+										modals.open({
+											title: "Cancel subscription",
+											onSubmit: cancelSubscription,
+											body: (
+												<p>
+													Are you sure you want to
+													cancel your subscription?
+													You will lose access to all
+													premium features.
+												</p>
+											),
+											submitLabel: "Yes",
+											closeLabel: "Cancel",
+										})
+									}
+									variant="danger"
+								>
 									Cancel
 								</Button>
+							) : user.subscription.plan === plan.name &&
+							  user.subscription.plan !== "Free" &&
+							  user.subscription.status === "canceled" ? (
+								<Button
+									onClick={() =>
+										modals.open({
+											title: "Reactivate subscription",
+											onSubmit: reactivateSubscription,
+											body: (
+												<p>
+													Are you sure you want to
+													reactivate your
+													subscription?
+												</p>
+											),
+											submitLabel: "Yes",
+											closeLabel: "Cancel",
+										})
+									}
+									variant="success"
+								>
+									Reactivate
+								</Button>
 							) : user.subscription.plan !== "Free" &&
-							  plan.name === "Free" ? (
+							  plan.name === "Free" &&
+							  user.subscription.status === "canceled" ? (
+								<Button
+									onClick={() =>
+										handleCheckout(plan.price_id)
+									}
+									variant="disabled"
+								>
+									Your {user.subscription.plan} subscription
+									hasn't expired yet
+								</Button>
+							) : user.subscription.plan !== "Free" &&
+							  plan.name === "Free" &&
+							  user.subscription.status === "active" ? (
 								<Button
 									onClick={() =>
 										handleCheckout(plan.price_id)
@@ -164,7 +256,9 @@ const Plans = () => {
 										handleCheckout(plan.price_id)
 									}
 								>
-									Upgrade
+									{user.subscription.plan === "Free"
+										? "Upgrade"
+										: "Select"}
 								</Button>
 							)}
 						</Card>
