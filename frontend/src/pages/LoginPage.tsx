@@ -3,6 +3,7 @@ import "./styles/auth.scss";
 import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { Form, FormGroup } from "../components/Form";
+import Button from "../components/Button";
 
 const LoginPages = () => {
 	const [email, setEmail] = useState<string>("");
@@ -19,6 +20,10 @@ const LoginPages = () => {
 		}
 	};
 
+	const googleHandler = () => {
+		window.location.href = `${import.meta.env.VITE_AUTH_URL}/google/login/`;
+	};
+
 	return (
 		<div className="auth">
 			<div className="auth-container">
@@ -27,6 +32,20 @@ const LoginPages = () => {
 					<div className="auth__subtitle">
 						Lore ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt.
+					</div>
+
+					<div className="auth__socials">
+						<Button onClick={googleHandler}>
+							Login with Google
+						</Button>
+					</div>
+
+					<div className="auth__seperator">
+						<div className="auth__seperator__line"></div>
+						<div className="auth__separator__text">
+							or continue with
+						</div>
+						<div className="auth__seperator__line"></div>
 					</div>
 
 					<Form onSubmit={loginHandler} submitLabel="Login">

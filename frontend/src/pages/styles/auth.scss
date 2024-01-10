@@ -6,8 +6,32 @@
 
 	form {
 		max-width: 400px;
-		margin-top: 30px;
 		margin-bottom: 15px;
+	}
+
+	.auth__socials {
+		max-width: 400px;
+		width: 100%;
+		margin-top: 30px;
+	}
+
+	.auth__seperator {
+		width: 100%;
+		max-width: 400px;
+		display: flex;
+		margin: 20px 0;
+		align-items: center;
+
+		.auth__separator__text {
+			width: 100%;
+			text-align: center;
+		}
+
+		.auth__seperator__line {
+			width: 100%;
+			height: 1px;
+			background-color: v.$color-border;
+		}
 	}
 
 	.auth-container {
