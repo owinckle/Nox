@@ -33,7 +33,7 @@ const RegisterPage = () => {
 
 					<div className="auth__socials">
 						<Button onClick={googleAuthHandler}>
-							Sign up with Google
+							Continue with Google
 						</Button>
 					</div>
 

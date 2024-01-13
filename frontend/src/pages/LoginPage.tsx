@@ -32,7 +32,7 @@ const LoginPages = () => {
 
 					<div className="auth__socials">
 						<Button onClick={googleAuthHandler}>
-							Login with Google
+							Continue with Google
 						</Button>
 					</div>
 
