@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import useAuth from "../hooks/useAuth";
 import { Form, FormGroup } from "../components/Form";
+import Button from "../components/Button";
 
 const RegisterPage = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [name, setName] = useState<string>("");
-	const { register } = useAuth();
+	const { register, googleAuthHandler } = useAuth();
 
 	const registerHandler = async (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
@@ -28,6 +29,20 @@ const RegisterPage = () => {
 					<div className="auth__subtitle">
 						Lore ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt.
+					</div>
+
+					<div className="auth__socials">
+						<Button onClick={googleAuthHandler}>
+							Sign up with Google
+						</Button>
+					</div>
+
+					<div className="auth__seperator">
+						<div className="auth__seperator__line"></div>
+						<div className="auth__separator__text">
+							or continue with
+						</div>
+						<div className="auth__seperator__line"></div>
 					</div>
 
 					<Form onSubmit={registerHandler} submitLabel="Sign up">

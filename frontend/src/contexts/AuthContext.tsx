@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, ReactNode } from "react";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import useRequest, { usePublicRequest } from "../hooks/useRequest";
+import { useGoogleLogin } from "@react-oauth/google";
 
 type AuthContextType = {
 	isAuthenticated: boolean;
@@ -16,6 +17,7 @@ type AuthContextType = {
 		newPassword: string,
 		password: string
 	) => Promise<void>;
+	googleAuthHandler: () => void;
 };
 
 interface AuthProviderProps {
@@ -95,8 +97,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			{ name, email, password },
 			registerErrorCallback
 		)
-			.then(() => {
-				window.location.href = "/login";
+			.then((data) => {
+				setUser(data.user);
+				localStorage.setItem("token", data.token);
 			})
 			.catch((error) => {
 				console.error("Registration error:", error);
@@ -136,11 +139,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			})
 			.catch((error) => {
 				console.error("Profile update error:", error);
-				// Consider how you might surface these errors in your UI
 			});
-
-		// await getProfile();
 	};
+
+	const googleAuthHandler = useGoogleLogin({
+		onSuccess: async (tokenResponse) => {
+			await usePublicRequest("POST", "/auth/google/", {
+				access_token: tokenResponse.access_token,
+			}).then((data) => {
+				setUser(data.user);
+				localStorage.setItem("token", data.token);
+			});
+		},
+	});
 
 	if (loading) {
 		return (
@@ -160,6 +171,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				login,
 				logout,
 				register,
+				googleAuthHandler,
 				updateProfile,
 			}}
 		>

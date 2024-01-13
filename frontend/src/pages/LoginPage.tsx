@@ -4,12 +4,11 @@ import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { Form, FormGroup } from "../components/Form";
 import Button from "../components/Button";
-import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginPages = () => {
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
-	const { login } = useAuth();
+	const { login, googleAuthHandler } = useAuth();
 
 	const loginHandler = async (e?: React.FormEvent<HTMLFormElement>) => {
 		e?.preventDefault();
@@ -20,10 +19,6 @@ const LoginPages = () => {
 			console.error("Login error:", error);
 		}
 	};
-
-	const googleHandler = useGoogleLogin({
-		onSuccess: (tokenResponse) => console.log(tokenResponse),
-	});
 
 	return (
 		<div className="auth">
@@ -36,7 +31,7 @@ const LoginPages = () => {
 					</div>
 
 					<div className="auth__socials">
-						<Button onClick={googleHandler}>
+						<Button onClick={googleAuthHandler}>
 							Login with Google
 						</Button>
 					</div>
