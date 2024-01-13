@@ -2,16 +2,18 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from subscriptions.models import UserSubscription
 from subscriptions.serializers import UserSubscriptionSerializer
+from .models import Profile
 
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
 	name = serializers.SerializerMethodField()
 	subscription = serializers.SerializerMethodField()
+	is_social = serializers.SerializerMethodField()
 
 	class Meta:
 		model = User
-		fields = ("id", "name", "email", "subscription")
+		fields = ("id", "name", "email", "subscription", "is_social")
 
 	def get_name(self, obj):
 		return obj.first_name
@@ -22,3 +24,7 @@ class UserSerializer(serializers.ModelSerializer):
 			return UserSubscriptionSerializer(subscription).data
 		except UserSubscription.DoesNotExist:
 			return None
+		
+	def get_is_social(self, obj):
+		profile = Profile.objects.get(user=obj)
+		return profile.is_social

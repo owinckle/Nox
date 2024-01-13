@@ -33,7 +33,7 @@ class  UserRegistrationAPIView(APIView):
 
 			user.first_name = user_data["name"]
 			user.save()
-			profile = Profile.objects.create(user=user) # Later on use this profile if needed
+			profile = Profile.objects.create(user=user)
 
 
 			free_plan = Plan.objects.get(name="Free")
@@ -103,7 +103,6 @@ class GoogleAuth(APIView):
 		try:
 			google_response = requests.get(f"https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token={access_token}")
 			google_data = google_response.json()
-			print(google_data)
 		except:
 			return Response({"error": "Invalid Google Access Token"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -116,7 +115,7 @@ class GoogleAuth(APIView):
 			# Perhaps use the picture from google as the profile picture
 			user.set_unusable_password()
 			user.save()
-			profile = Profile.objects.create(user=user) # Later on use this profile if needed
+			profile = Profile.objects.create(user=user, is_social=True)
 
 			free_plan = Plan.objects.get(name="Free")
 			stripe_customer = stripe.Customer.create(email=google_data["email"])

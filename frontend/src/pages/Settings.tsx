@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 const Settings = () => {
 	const navigate = useNavigate();
 
-	const { updateProfile, user, logout } = useAuth();
+	const { updateProfile, user } = useAuth();
 	const [name, setName] = useState<string>(user.name);
 	const [email, setEmail] = useState<string>(user.email);
 	const [password, setPassword] = useState<string>("");
@@ -26,47 +26,51 @@ const Settings = () => {
 		await updateProfile(name, email, newPassword, password);
 	};
 
+	console.log(user);
+
 	return (
 		<LayoutSmall className="settings">
 			<LayoutHeader>
 				<LayoutTitle>Settings</LayoutTitle>
 				<LayoutSubtitle>Manage your account settings</LayoutSubtitle>
 			</LayoutHeader>
-			<Card title="Account">
-				<Form onSubmit={updateSettings} submitLabel="Save">
-					<FormGroup
-						label="Name"
-						type="text"
-						placeholder="Name"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
+			{!user.is_social && (
+				<Card title="Account">
+					<Form onSubmit={updateSettings} submitLabel="Save">
+						<FormGroup
+							label="Name"
+							type="text"
+							placeholder="Name"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
 
-					<FormGroup
-						label="E-mail"
-						type="email"
-						placeholder="E-mail"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
+						<FormGroup
+							label="E-mail"
+							type="email"
+							placeholder="E-mail"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
 
-					<FormGroup
-						label="New password"
-						type="password"
-						placeholder="••••••••••"
-						value={newPassword}
-						onChange={(e) => setNewPassword(e.target.value)}
-					/>
+						<FormGroup
+							label="New password"
+							type="password"
+							placeholder="••••••••••"
+							value={newPassword}
+							onChange={(e) => setNewPassword(e.target.value)}
+						/>
 
-					<FormGroup
-						label="Current password"
-						type="password"
-						placeholder="••••••••••"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-				</Form>
-			</Card>
+						<FormGroup
+							label="Current password"
+							type="password"
+							placeholder="••••••••••"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+					</Form>
+				</Card>
+			)}
 
 			<Card title="Subscriptions">
 				<CardRow label="Current plan" value={user.subscription.plan} />
