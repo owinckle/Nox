@@ -15,12 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-	"django.contrib.sites",
 	"corsheaders",
-	"allauth",
-	"allauth.account",
-	"allauth.socialaccount",
-	"allauth.socialaccount.providers.google",
 	"rest_framework.authtoken",
 	"rest_framework",
 	"users",
@@ -38,7 +33,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-	"allauth.account.middleware.AccountMiddleware"
 ]
 
 TEST_RUNNER = "redgreenunittest.django.runner.RedGreenDiscoverRunner"
@@ -47,22 +41,8 @@ ROOT_URLCONF = "api.urls"
 
 
 AUTHENTICATION_BACKENDS = [
-	"django.contrib.auth.backends.ModelBackend",
-	"allauth.account.auth_backends.AuthenticationBackend",
+	"django.contrib.auth.backends.ModelBackend"
 ]
-
-SITE_ID = 1
-
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_VERIFICATION = "none"
-SOCIALACCOUNT_LOGIN_ON_GET = True
-
-
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [

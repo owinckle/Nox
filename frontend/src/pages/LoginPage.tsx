@@ -4,6 +4,7 @@ import useAuth from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 import { Form, FormGroup } from "../components/Form";
 import Button from "../components/Button";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const LoginPages = () => {
 	const [email, setEmail] = useState<string>("");
@@ -20,9 +21,9 @@ const LoginPages = () => {
 		}
 	};
 
-	const googleHandler = () => {
-		window.location.href = `${import.meta.env.VITE_AUTH_URL}/google/login/`;
-	};
+	const googleHandler = useGoogleLogin({
+		onSuccess: (tokenResponse) => console.log(tokenResponse),
+	});
 
 	return (
 		<div className="auth">

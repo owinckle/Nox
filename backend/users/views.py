@@ -53,6 +53,7 @@ class UserLoginAPIView(APIView):
 		password = request.data.get("password")
 
 		user = authenticate(email=email, password=password)
+		print(user)
 		if user:
 			token, _ = Token.objects.get_or_create(user=user)
 			
