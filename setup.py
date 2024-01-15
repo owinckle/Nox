@@ -90,6 +90,13 @@ def main():
 	print(bcolors.HEADER + "Welcome to the Nox Boilerplate setup!" + bcolors.ENDC)
 	project_name = input("App name: ").strip()
 
+	# Check if backend/db.sqlite3 exists, if yes, ask if user wants to continue
+	if os.path.exists("backend/db.sqlite3"):
+		choice = input("A database already exists, do you want to continue? (y/n): ").strip().lower()
+		if choice != "y":
+			print(bcolors.FAIL + "Setup cancelled." + bcolors.ENDC)
+			return
+
 	backend_setup(project_name)
 	frontend_setup(project_name)
 	print(bcolors.OKGREEN + "Setup complete!" + bcolors.ENDC)
