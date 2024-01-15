@@ -2,6 +2,20 @@
 
 .app-shell {
 	display: flex;
+	height: 100vh;
+
+	@media (max-width: v.$breakpoint-laptop) {
+		position: fixed;
+		display: block;
+		left: v.$sidebar-sm-width + 30px;
+		width: calc(100vw - v.$sidebar-sm-width - 30px);
+	}
+
+	@media (max-width: v.$breakpoint-tablet) {
+		height: calc(100vh - v.$header-height);
+		width: 100vw;
+		left: 0;
+	}
 }
 
 .layout {

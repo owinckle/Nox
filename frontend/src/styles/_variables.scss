@@ -21,6 +21,9 @@ $color-border: #282828;
 $sidebar-width: 270px;
 $sidebar-sm-width: 40px;
 
+// Header
+$header-height: 50px;
+
 // Dialogs
 $dialog-width: 450px;
 
@@ -29,3 +32,8 @@ $onboarding-width: 700px;
 
 // UI
 $border-radius: 7px;
+
+// Breakpoints
+$breakpoint-laptop: 1024px;
+$breakpoint-tablet: 768px;
+$breakpoint-mobile: 480px;

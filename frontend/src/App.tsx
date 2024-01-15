@@ -19,48 +19,51 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { IoMdLogOut } from "react-icons/io";
 import useAuth from "./hooks/useAuth";
 import { MdOutlinePayment } from "react-icons/md";
+import { Header } from "./components/Header";
 
 const App = () => {
 	const { user, logout } = useAuth();
 
 	return (
 		<Router>
+			{user && <Header />}
 			<AppShell>
 				{user && (
-					<Sidebar>
-						<SidebarHeader
-							logo="https://i.gyazo.com/047076012ad802f9e016fc92ac439ad7.png"
-							title="Nox"
-							subtitle={`Welcome back, ${user.name}!`}
-						/>
+					<>
+						<Sidebar>
+							<SidebarHeader
+								logo="https://i.gyazo.com/9164877359edc20b8f1868544fe98bde.png"
+								title="Nox"
+								subtitle={`Welcome back, ${user.name}!`}
+							/>
 
-						<SidebarSection name="General" noHeader>
-							<SidebarItem
-								icon={<FiHome />}
-								label="Home"
-								active
-								target="/"
-							/>
-						</SidebarSection>
+							<SidebarSection name="General" noHeader>
+								<SidebarItem
+									icon={<FiHome />}
+									label="Home"
+									target="/"
+								/>
+							</SidebarSection>
 
-						<SidebarSection name="Account" collapse>
-							<SidebarItem
-								icon={<IoSettingsOutline />}
-								label="Settings"
-								target="/settings"
-							/>
-							<SidebarItem
-								icon={<MdOutlinePayment />}
-								label="Plans"
-								target="/plans"
-							/>
-							<SidebarItem
-								icon={<IoMdLogOut />}
-								label="Logout"
-								onClick={logout}
-							/>
-						</SidebarSection>
-					</Sidebar>
+							<SidebarSection name="Account" collapse>
+								<SidebarItem
+									icon={<IoSettingsOutline />}
+									label="Settings"
+									target="/settings"
+								/>
+								<SidebarItem
+									icon={<MdOutlinePayment />}
+									label="Plans"
+									target="/plans"
+								/>
+								<SidebarItem
+									icon={<IoMdLogOut />}
+									label="Logout"
+									onClick={logout}
+								/>
+							</SidebarSection>
+						</Sidebar>
+					</>
 				)}
 
 				<Routes>

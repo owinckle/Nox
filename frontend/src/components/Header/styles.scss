@@ -1,0 +1,33 @@
+@use "../../styles/variables" as v;
+
+.header {
+	display: none;
+	padding: 15px;
+	height: calc(v.$header-height - 31px);
+	border-bottom: 1px solid v.$color-border;
+	align-items: center;
+	gap: 5px;
+
+	.header__burger__container {
+		width: calc(v.$sidebar-sm-width);
+		display: flex;
+		justify-content: center;
+
+		svg {
+			font-size: 1.7rem;
+			color: v.$color-text;
+			cursor: pointer;
+			margin-bottom: -2.3px;
+		}
+	}
+
+	.header__title {
+		font-size: 1.6rem;
+		font-weight: 600;
+		color: v.$color-text;
+	}
+
+	@media (max-width: v.$breakpoint-tablet) {
+		display: flex;
+	}
+}
