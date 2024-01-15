@@ -24,7 +24,9 @@ const LoginPages = () => {
 		<div className="auth">
 			<div className="auth-container">
 				<div className="auth__pane auth-left">
-					<div className="auth__title">Login to Nox</div>
+					<div className="auth__title">
+						Login to {import.meta.env.VITE_APP_NAME}
+					</div>
 					<div className="auth__subtitle">
 						Lore ipsum dolor sit amet, consectetur adipiscing elit,
 						sed do eiusmod tempor incididunt.

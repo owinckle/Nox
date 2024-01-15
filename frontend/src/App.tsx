@@ -33,7 +33,7 @@ const App = () => {
 						<Sidebar>
 							<SidebarHeader
 								logo="https://i.gyazo.com/9164877359edc20b8f1868544fe98bde.png"
-								title="Nox"
+								title={import.meta.env.VITE_APP_NAME}
 								subtitle={`Welcome back, ${user.name}!`}
 							/>
 
