@@ -20,7 +20,8 @@ INSTALLED_APPS = [
 	"rest_framework",
 	"users",
 	"subscriptions",
-	"webhooks"
+	"webhooks",
+	"pages"
 ]
 
 
@@ -93,9 +94,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = "static/"
-
-
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+JAZZMIN_SETTINGS = {
+	"site_title": config("APP_NAME"),
+	"site_header": config("APP_NAME"),
+	"site_brand": config("APP_NAME"),
+	"welcome_sign": f"Welcome to {config('APP_NAME')}",
+	"copyright": config("APP_NAME")
+}

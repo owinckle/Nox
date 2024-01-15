@@ -1,0 +1,163 @@
+{% extends "pages/base.html" %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'pages/css/home.css' %}" />
+{% endblock %} {% block content %}
+<section class="hero fade-in-up">
+	<span class="hero__notice">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit.
+	</span>
+	<h2 class="hero__title">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit.
+	</h2>
+	<h1 class="hero__description">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+		voluptatum.
+	</h1>
+
+	<div class="hero__ctas">
+		<a href="" class="button">Get Started</a>
+		<a href="" class="button reverse">Features</a>
+	</div>
+</section>
+
+<section class="features fade-in-up" id="features">
+	<h3 class="section__title">Why {{ app_name }}?</h3>
+	<p class="section__description">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+		voluptatum.
+	</p>
+
+	<div class="feature__list">
+		<div class="feature">
+			<div class="feature__text">
+				<h4 class="feature__name">Feature</h4>
+				<p class="feature__description">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur
+					adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor
+					sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+				</p>
+			</div>
+			<img
+				src="https://via.placeholder.com/300"
+				alt="Feature image"
+				class="feature__image"
+			/>
+		</div>
+		<div class="feature">
+			<div class="feature__text">
+				<h4 class="feature__name">Feature</h4>
+				<p class="feature__description">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur
+					adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor
+					sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+				</p>
+			</div>
+			<img
+				src="https://via.placeholder.com/300"
+				alt="Feature image"
+				class="feature__image"
+			/>
+		</div>
+		<div class="feature">
+			<div class="feature__text">
+				<h4 class="feature__name">Feature</h4>
+				<p class="feature__description">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur
+					adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor
+					sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+				</p>
+			</div>
+			<img
+				src="https://via.placeholder.com/300"
+				alt="Feature image"
+				class="feature__image"
+			/>
+		</div>
+		<div class="feature">
+			<div class="feature__text">
+				<h4 class="feature__name">Feature</h4>
+				<p class="feature__description">
+					Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					Quisquam, voluptatum. Lorem ipsum dolor sit amet consectetur
+					adipisicing elit. Quisquam, voluptatum. Lorem ipsum dolor
+					sit amet consectetur adipisicing elit. Quisquam, voluptatum.
+				</p>
+			</div>
+			<img
+				src="https://via.placeholder.com/300"
+				alt="Feature image"
+				class="feature__image"
+			/>
+		</div>
+	</div>
+</section>
+
+<section class="pricing fade-in-up" id="pricing">
+	<h3 class="section__title">Pricing</h3>
+	<p class="section__description">
+		Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+		voluptatum.
+	</p>
+
+	<div
+		class="pricing__list"
+		style="grid-template-columns: repeat({{plans|length}}, 1fr)"
+	>
+		{% for plan in plans %}
+		<div class="plan">
+			<div class="plan__head">
+				<div class="plan__name">{{plan.name}}</div>
+				<div class="plan__price">${{plan.price}}</div>
+			</div>
+			<div class="plan__features">
+				{% for feature in plan.features.splitlines %}
+				<div class="plan__feature">
+					<div class="plan__feature__icon">✓</div>
+					<div class="plan__feature__text">{{feature}}</div>
+				</div>
+				{% endfor %}
+			</div>
+
+			<a href="" class="button">Get started</a>
+		</div>
+		{% endfor %}
+	</div>
+</section>
+
+<section class="faq fade-in-up" id="faq">
+	<h2 class="faq__title">Frequently Asked Questions</h2>
+	<p class="faq__description">
+		Here are some of our most frequently asked questions. If you have other
+		questions, please feel free to contact us.
+	</p>
+
+	<div class="faq__container">
+		<div class="faq__item" onclick="this.classList.toggle('opened');">
+			<h2 class="faq__question">What is Nox?</h2>
+			<p class="faq__answer">
+				Nox is a Django & React boilerplate that helps you build
+				production-ready web applications quickly.
+			</p>
+		</div>
+
+		<div class="faq__item" onclick="this.classList.toggle('opened');">
+			<h2 class="faq__question">What is Nox?</h2>
+			<p class="faq__answer">
+				Nox is a Django & React boilerplate that helps you build
+				production-ready web applications quickly.
+			</p>
+		</div>
+
+		<div class="faq__item" onclick="this.classList.toggle('opened');">
+			<h2 class="faq__question">What is Nox?</h2>
+			<p class="faq__answer">
+				Nox is a Django & React boilerplate that helps you build
+				production-ready web applications quickly.
+			</p>
+		</div>
+	</div>
+</section>
+
+{% endblock %}

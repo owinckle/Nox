@@ -1,0 +1,36 @@
+{% load static %}
+<nav>
+	<div class="nav__container">
+		<div class="nav__left">
+			<a class="nav__identity" href="{% url 'pages-home' %}">
+				<img
+					src="{% static 'pages/img/logo.png' %}"
+					alt="Logo"
+					class="nav__logo"
+				/>
+				<div class="nav__title">{{ app_name }}</div>
+			</a>
+			<ul class="nav__links">
+				<li class="nav__link">
+					<a href="{% url 'pages-home' %}#features">Features</a>
+				</li>
+				<li class="nav__link">
+					<a href="{% url 'pages-home' %}#pricing">Pricing</a>
+				</li>
+				<li class="nav__link">
+					<a href="{% url 'pages-home' %}#faq">FAQ</a>
+				</li>
+			</ul>
+		</div>
+		<div class="nav__right">
+			<ul class="nav__links">
+				<li class="nav__link button reverse">
+					<a href="">Login</a>
+				</li>
+				<li class="nav__link button">
+					<a href="">Sign Up</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
