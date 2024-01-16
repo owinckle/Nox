@@ -190,7 +190,7 @@ const Plans = () => {
 						) : user.subscription.plan === "Free" &&
 						  plan.name === "Free" ? (
 							<Button
-								onClick={() => handleCheckout(plan.price_id)}
+								variant="disabled"
 							>
 								Current
 							</Button>
