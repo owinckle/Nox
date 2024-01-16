@@ -179,3 +179,9 @@ a.button:hover {
 		transform: translateY(0);
 	}
 }
+
+@media only screen and (max-width: 768px) {
+	.nav-mobile-active {
+		overflow: hidden;
+	}
+}

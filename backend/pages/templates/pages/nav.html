@@ -32,5 +32,47 @@
 				</li>
 			</ul>
 		</div>
+
+		<div class="nav__burger">
+			<div class="nav__burger__line"></div>
+			<div class="nav__burger__line"></div>
+			<div class="nav__burger__line"></div>
+		</div>
 	</div>
 </nav>
+
+<nav class="nav-mobile">
+	<ul class="nav__links">
+		<li class="nav__link">
+			<a href="{% url 'pages-home' %}#features">Features</a>
+		</li>
+		<li class="nav__link">
+			<a href="{% url 'pages-home' %}#pricing">Pricing</a>
+		</li>
+		<li class="nav__link">
+			<a href="{% url 'pages-home' %}#faq">FAQ</a>
+		</li>
+		<li class="nav__link button reverse">
+			<a href="">Login</a>
+		</li>
+		<li class="nav__link button">
+			<a href="">Sign Up</a>
+		</li>
+	</ul>
+</nav>
+
+<script>
+	const navBurger = document.querySelector(".nav__burger");
+
+	navBurger.addEventListener("click", () => {
+		document.body.classList.toggle("nav-mobile-active");
+	});
+
+	const navLinks = document.querySelectorAll(".nav-mobile .nav__link");
+
+	navLinks.forEach((link) => {
+		link.addEventListener("click", () => {
+			document.body.classList.remove("nav-mobile-active");
+		});
+	});
+</script>
