@@ -7,4 +7,5 @@ urlpatterns = [
 	path("api/", include("users.urls")),
 	path("api/", include("subscriptions.urls")),
 	path("webhook/", include("webhooks.urls")),
+	path("app/", include("app.urls"))
 ]

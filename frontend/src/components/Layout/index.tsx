@@ -27,13 +27,13 @@ export const LayoutSmall = ({ className, children }: Props) => {
 };
 
 export const LayoutHeader = ({ className, children }: Props) => {
-	return <div className="layout__header">{children}</div>;
+	return <div className={`layout__header ${className}`}>{children}</div>;
 };
 
 export const LayoutTitle = ({ className, children }: Props) => {
-	return <div className="layout__title">{children}</div>;
+	return <div className={`layout__title ${className}`}>{children}</div>;
 };
 
 export const LayoutSubtitle = ({ className, children }: Props) => {
-	return <div className="layout__subtitle">{children}</div>;
+	return <div className={`layout__subtitle ${className}`}>{children}</div>;
 };

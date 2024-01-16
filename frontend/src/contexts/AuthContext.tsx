@@ -133,7 +133,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			},
 			updateErrorCallback
 		)
-			.then((data) => {
+			.then((user) => {
 				toast.success("Profile updated successfully.");
 				setUser(user);
 			})

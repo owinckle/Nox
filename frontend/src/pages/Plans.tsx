@@ -20,7 +20,7 @@ const stripePromise = loadStripe(
 );
 
 const Plans = () => {
-	const { getProfile, user, logout } = useAuth();
+	const { getProfile, user } = useAuth();
 	const modals = useModals();
 
 	const [plans, setPlans] = useState<[]>([]);
@@ -47,6 +47,7 @@ const Plans = () => {
 
 		const errorCallback = (response: Response) => {
 			toast.error("Something went wrong, please try again later.");
+			throw new Error(response.statusText);
 		};
 
 		useRequest(

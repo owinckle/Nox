@@ -25,7 +25,7 @@ const App = () => {
 	const { user, logout } = useAuth();
 
 	return (
-		<Router>
+		<Router basename="/app">
 			{user && <Header />}
 			<AppShell>
 				{user && (

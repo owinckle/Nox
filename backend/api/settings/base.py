@@ -21,7 +21,8 @@ INSTALLED_APPS = [
 	"users",
 	"subscriptions",
 	"webhooks",
-	"pages"
+	"pages",
+	"app"
 ]
 
 
