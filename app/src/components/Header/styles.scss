@@ -1,0 +1,49 @@
+@use "../../styles/variables" as v;
+
+.header {
+	border-bottom: 0px solid v.$color-border;
+	display: flex;
+	align-items: center;
+	padding: 0 20px;
+	height: calc(v.$header-height - 0px);
+	background-color: v.$color-bg-secondary;
+
+	&__title {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: v.$sidebar-width;
+
+		&__logo {
+			width: 30px;
+			height: 30px;
+			border-radius: v.$border-radius;
+			background-color: v.$color-bg-secondary;
+			display: flex;
+		}
+
+		&__text {
+			display: flex;
+			flex-direction: column;
+			gap: 2px;
+
+			&__title {
+				font-size: 1.1rem;
+				font-weight: 600;
+				color: v.$color-text;
+			}
+
+			&__subtitle {
+				font-size: 0.85rem;
+				color: v.$color-subtext;
+			}
+		}
+	}
+
+	&__right {
+		display: flex;
+		align-items: center;
+		gap: 20px;
+		margin-left: auto;
+	}
+}

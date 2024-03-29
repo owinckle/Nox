@@ -26,8 +26,6 @@ const Settings = () => {
 		await updateProfile(name, email, newPassword, password);
 	};
 
-	console.log(user);
-
 	return (
 		<LayoutSmall className="settings">
 			<LayoutHeader>

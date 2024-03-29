@@ -17,6 +17,18 @@
 			font-weight: 600;
 			color: v.$color-text;
 		}
+
+		.card__action {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: color 0.2s ease-in-out;
+
+			&:hover {
+				color: v.$color-accent;
+			}
+		}
 	}
 
 	.card__body {

@@ -1,0 +1,182 @@
+@use "variables" as v;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap");
+
+// Global Styles with Necessary Resets
+* {
+	margin: 0;
+	padding: 0;
+	letter-spacing: 1px;
+	font-size: 12px;
+	font-variant-numeric: lining-nums;
+	font-feature-settings: "lnum" 1;
+	-moz-font-feature-settings: "lnum" 1;
+	-moz-font-feature-settings: "lnum=1";
+	-ms-font-feature-settings: "lnum" 1;
+	-o-font-feature-settings: "lnum" 1;
+	-webkit-font-feature-settings: "lnum" 1;
+	user-select: none;
+}
+
+*::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: v.$color-accent;
+	border-radius: 7px;
+}
+*::-webkit-scrollbar-track {
+	background-color: v.$color-bg-primary;
+}
+
+p {
+	line-height: 1.5;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+	background-color: v.$color-bg-secondary;
+	color: v.$color-text;
+	overflow-x: hidden;
+}
+
+a {
+	text-decoration: none;
+	cursor: pointer;
+	color: v.$color-text;
+	transition: color 0.3s ease-in-out;
+
+	&:hover {
+		color: v.$color-accent;
+	}
+}
+
+input,
+textarea,
+button {
+	font-family: inherit;
+	color: v.$color-text;
+}
+
+input {
+	width: calc(100% - 20px - 4px);
+	padding: 7px 10px;
+	border-radius: v.$border-radius;
+	background-color: transparent;
+	border: 2px solid v.$color-border;
+	transition: border-color 0.3s ease-in-out;
+
+	&:focus {
+		outline: none;
+		border-color: v.$color-accent;
+	}
+
+	&[type="color"] {
+		width: 100%;
+		padding: 0;
+		cursor: pointer;
+
+		&::-moz-color-swatch {
+			border: none;
+		}
+
+		&::-webkit-color-swatch-wrapper {
+			padding: 0;
+			border: none;
+		}
+
+		&::-webkit-color-swatch {
+			border: none;
+			border-radius: v.$border-radius;
+		}
+	}
+}
+
+// Additional global styles based on the palette
+.text-sub {
+	color: v.$color-subtext;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-subtext, 10%);
+		}
+	}
+}
+
+.success {
+	color: v.$color-success;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-success, 10%);
+		}
+	}
+}
+
+.warning {
+	color: v.$color-warning;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-warning, 10%);
+		}
+	}
+}
+
+.danger {
+	color: v.$color-danger;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-danger, 10%);
+		}
+	}
+}
+
+.accent {
+	color: v.$color-accent;
+}
+
+.center {
+	text-align: center;
+}
+
+// Toast
+:root {
+	--toastify-color-progress-success: #00b14a !important;
+	--toastify-color-progress-warning: #ffb300 !important;
+	--toastify-color-progress-error: #f85555 !important;
+
+	--toastify-color-icon-success: #00b14a !important;
+	--toastify-color-icon-warning: #ffb300 !important;
+	--toastify-color-icon-error: #f85555 !important;
+
+	--toastify-color-dark: #1d2025 !important;
+}
+.toast-success {
+	background-color: v.$color-success;
+}
+
+.toast-warning {
+	background-color: v.$color-warning;
+}
+
+.toast-danger {
+	// background-color: v.$color-danger;
+	background-color: yellow;
+}

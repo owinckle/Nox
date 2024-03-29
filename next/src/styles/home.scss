@@ -1,0 +1,259 @@
+@use "variables" as v;
+
+main {
+	position: relative;
+	padding-top: 60px;
+}
+
+/* Hero */
+.hero {
+	padding: 80px 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.hero__notice {
+	margin-bottom: 60px;
+	background-color: v.$color-bg-secondary;
+	width: fit-content;
+	padding: 10px 20px;
+	font-weight: 600;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	border: 2px solid v.$color-border;
+	box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.1);
+	text-align: center;
+	line-height: 1.6;
+}
+
+.hero__title {
+	font-size: 3.5rem;
+	font-weight: 600;
+	margin-bottom: 40px;
+	max-width: 800px;
+	text-align: center;
+
+	/* Make a gradient on the next from top to bottom, slightly darker going down. only on the text */
+	background: linear-gradient(
+		180deg,
+		v.$color-text 0%,
+		v.$color-subtext 100%
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hero__description {
+	font-size: 1.7rem;
+	font-weight: 400;
+	margin-bottom: 50px;
+	text-align: center;
+	max-width: 700px;
+	color: v.$color-subtext;
+}
+
+.hero__ctas {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+}
+
+.hero__ctas .button {
+	padding: 10px 20px;
+}
+
+/* Section */
+.features,
+.pricing,
+.faq {
+	max-width: 1200px;
+	margin: 0 auto;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 80px 60px;
+}
+
+.section__title {
+	font-size: 2rem;
+	font-weight: 600;
+	margin-bottom: 20px;
+	max-width: 800px;
+	text-align: center;
+}
+
+.section__description {
+	font-size: 1.2rem;
+	font-weight: 400;
+	margin-bottom: 50px;
+	text-align: center;
+	max-width: 700px;
+	color: v.$color-subtext;
+}
+
+/* Features */
+.features .feature__list {
+	display: flex;
+	flex-direction: column;
+	gap: 60px;
+	width: 100%;
+}
+
+.features .feature {
+	display: flex;
+	align-items: center;
+	gap: 30px;
+	justify-content: space-between;
+}
+
+.features .feature .feature__text {
+	max-width: 600px;
+	text-align: left;
+	color: v.$color-subtext;
+}
+
+.features .feature .feature__image {
+	width: 300px;
+	height: 300px;
+	border-radius: 7px;
+	background-color: v.$color-subtext;
+}
+
+.features .feature .feature__name {
+	font-size: 1.8rem;
+	margin-bottom: 15px;
+	color: v.$color-text;
+}
+
+/* Pricing */
+.pricing .pricing__list {
+	display: grid;
+	gap: 25px;
+}
+
+.plan {
+	width: 300px;
+	border-radius: 7px;
+	display: flex;
+	flex-direction: column;
+	padding: 25px;
+	justify-content: center;
+	border: 2px solid v.$color-accent;
+}
+
+.plan .plan__head {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 15px;
+	gap: 15px;
+}
+
+.plan .plan__head .plan__name {
+	font-size: 1.8rem;
+	font-weight: 600;
+}
+
+.plan .plan__head .plan__price {
+	font-size: 2.6rem;
+	font-weight: 600;
+}
+
+.plan .plan__features {
+	display: flex;
+	flex-direction: column;
+	line-height: 1.6;
+	gap: 15px;
+}
+
+.plan .plan__feature {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.plan .plan__feature .plan__feature__icon {
+	width: 30px;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.plan .button {
+	margin-top: 20px;
+}
+
+/* FAQ */
+.faq__container {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.faq__title {
+	text-align: center;
+	margin-bottom: 15px;
+	font-size: 2.6rem;
+}
+
+.faq__description {
+	max-width: 600px;
+	text-align: center;
+	color: v.$color-subtext;
+	padding-bottom: 40px;
+	line-height: 1.6;
+}
+
+.faq__item {
+	background-color: v.$color-bg-secondary;
+	border: 2px solid v.$color-border;
+	border-radius: 7px;
+	max-height: 42px;
+	overflow: hidden;
+	cursor: pointer;
+	transition: max-height 0.1s ease-in-out;
+	max-width: 700px;
+}
+
+.faq__item.opened {
+	max-height: 300px;
+}
+
+.faq__question,
+.faq__answer {
+	padding: 15px;
+}
+
+.faq__answer {
+	padding-top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+	.features .feature {
+		flex-direction: column;
+		gap: 30px;
+	}
+}
+
+@media only screen and (max-width: 560px) {
+	.hero__title {
+		font-size: 2.5rem;
+	}
+
+	.hero__description {
+		font-size: 1.4rem;
+	}
+
+	.hero__notice {
+		display: none;
+	}
+
+	.plan {
+		width: 250px;
+	}
+}

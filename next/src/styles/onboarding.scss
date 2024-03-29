@@ -1,0 +1,95 @@
+@use "variables" as v;
+
+.onboarding {
+	.onboarding__container {
+		width: 100%;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 25px;
+		padding-top: 90px;
+		height: calc(100vh - 25px - 90px);
+
+		.onboarding__subdomain-preview {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		.onboarding__steps {
+			display: flex;
+			max-width: 700px;
+			margin: 0 auto;
+			gap: 15px;
+			align-items: center;
+			margin-bottom: 60px;
+
+			.onboarding__steps__step-separator {
+				width: 100%;
+				height: 2px;
+				background-color: v.$color-border;
+				transition: background-color 0.2s ease-in-out;
+
+				&:last-child {
+					display: none;
+				}
+
+				&.done {
+					background-color: v.$color-accent;
+				}
+			}
+
+			.onboarding__steps__step {
+				display: flex;
+				gap: 10px;
+				align-items: center;
+
+				.onboarding__steps__step__circle {
+					$size: 25px;
+					min-width: $size;
+					min-height: $size;
+					max-width: $size;
+					max-height: $size;
+					font-size: 0.9rem;
+					border-radius: 50%;
+					background-color: v.$color-accent;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					cursor: pointer;
+					transition: background-color 0.2s ease-in-out;
+
+					&:hover {
+						background-color: lighten(v.$color-accent, 5%);
+					}
+				}
+
+				.onboarding__steps__step__name {
+					white-space: nowrap;
+				}
+			}
+		}
+
+		.onboarding__modal {
+			position: relative;
+			width: 100%;
+			max-width: 500px;
+			background-color: v.$color-bg-secondary;
+			padding: 25px;
+			margin: 0 auto;
+			border-radius: v.$border-radius;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+			.onboarding__modal__title {
+				font-size: 1.2rem;
+				text-align: center;
+				margin-bottom: 20px;
+			}
+
+			.onboarding__modal__body {
+				display: flex;
+				flex-direction: column;
+				gap: 15px;
+			}
+		}
+	}
+}

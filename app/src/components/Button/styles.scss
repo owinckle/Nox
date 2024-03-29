@@ -1,0 +1,89 @@
+@use "../../styles/variables" as v;
+
+.button {
+	text-align: center;
+	width: calc(100% - 20px - 4px);
+	border-radius: v.$border-radius;
+	padding: 7px 10px;
+	background-color: v.$color-accent;
+	color: v.$color-text;
+	border: 2px solid v.$color-accent;
+	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+	min-width: fit-content;
+	cursor: pointer;
+
+	&:hover {
+		background-color: lighten(v.$color-accent, 10%);
+		border-color: lighten(v.$color-accent, 10%);
+	}
+
+	&.button-success {
+		background-color: v.$color-success;
+		border-color: v.$color-success;
+
+		&:hover {
+			background-color: lighten(v.$color-success, 10%);
+			border-color: lighten(v.$color-success, 10%);
+		}
+	}
+
+	&.button-danger {
+		background-color: v.$color-danger;
+		border-color: v.$color-danger;
+
+		&:hover {
+			background-color: lighten(v.$color-danger, 10%);
+			border-color: lighten(v.$color-danger, 10%);
+		}
+	}
+
+	&.button-warning {
+		background-color: v.$color-warning;
+		border-color: v.$color-warning;
+
+		&:hover {
+			background-color: lighten(v.$color-warning, 10%);
+			border-color: lighten(v.$color-warning, 10%);
+		}
+	}
+
+	&.button-disabled {
+		background-color: lighten(v.$color-bg-secondary, 5%);
+		border-color: lighten(v.$color-bg-secondary, 5%);
+		cursor: not-allowed;
+
+		&:hover {
+			background-color: lighten(v.$color-bg-secondary, 5%);
+			border-color: lighten(v.$color-bg-secondary, 5%);
+		}
+	}
+
+	&.button-neutral {
+		background-color: lighten(v.$color-bg-secondary, 3%);
+		border-color: lighten(v.$color-bg-secondary, 3%);
+
+		&:hover {
+			background-color: lighten(v.$color-bg-secondary, 5%);
+			border-color: lighten(v.$color-bg-secondary, 5%);
+		}
+	}
+
+	&.button-reverse {
+		background-color: v.$color-bg-primary;
+		color: v.$color-text;
+		border-color: v.$color-border;
+
+		&:hover {
+			background-color: lighten(v.$color-bg-primary, 5%);
+		}
+	}
+
+	&.button-bordered {
+		background-color: lighten(v.$color-bg-primary, 3%);
+		border-color: v.$color-border;
+
+		&:hover {
+			background-color: lighten(v.$color-bg-secondary, 5%);
+		}
+	}
+}

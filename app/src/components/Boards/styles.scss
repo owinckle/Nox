@@ -1,0 +1,127 @@
+@use "../../styles/variables" as v;
+
+.board-list {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	height: calc(100vh - v.$header-height - 50px - 1.5rem - 25px);
+	overflow-y: auto;
+
+	&__empty {
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+		position: relative;
+		top: calc(50% - v.$header-height - 50px - 1.5rem - 25px);
+		transform: translateY(-50%);
+
+		.button {
+			width: fit-content;
+			position: relative;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
+
+	&__post {
+		display: flex;
+		align-items: center;
+		gap: 15px;
+		padding: 25px;
+		background: v.$color-bg-secondary;
+		border-radius: v.$border-radius;
+		border: 1px solid v.$color-border;
+		cursor: pointer;
+		transition: background-color 0.2s ease-in-out;
+
+		&:hover {
+			background: lighten(v.$color-bg-secondary, 3%);
+		}
+
+		&__votes {
+			display: flex;
+			flex-direction: column;
+			gap: 3px;
+			align-items: center;
+
+			&__count {
+				font-weight: 600;
+			}
+
+			&__button {
+				font-size: 1.2rem;
+				cursor: pointer;
+				transition: color 0.2s ease-in-out;
+
+				&:hover {
+					color: v.$color-accent;
+				}
+			}
+		}
+
+		&__author {
+			width: 70px;
+			height: 70px;
+			border-radius: 50%;
+			border: 2px solid v.$color-border;
+			overflow: hidden;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			font-size: 2.2rem;
+			background-color: v.$color-accent;
+
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		&__content {
+			&__title {
+				font-size: 1.5rem;
+				font-weight: 500;
+				margin-bottom: 3px;
+			}
+
+			&__description {
+				font-size: 1rem;
+				color: v.$color-subtext;
+				margin-bottom: 10px;
+			}
+
+			&__footer {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+
+				&__date {
+					font-size: 0.9rem;
+				}
+
+				&__comments {
+					display: flex;
+					align-items: center;
+					gap: 5px;
+					margin-top: 1px;
+
+					svg {
+						font-size: 1.2rem;
+						margin-top: 1px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.board-filter {
+	margin-bottom: 15px;
+
+	&__search {
+		max-width: 300px;
+	}
+}

@@ -1,0 +1,18 @@
+@use "../../styles/variables" as v;
+
+.circle {
+	background-color: v.$color-accent;
+	border-radius: 50%;
+
+	&.circle--success {
+		background-color: v.$color-success;
+	}
+
+	&.circle--warning {
+		background-color: v.$color-warning;
+	}
+
+	&.circle--danger {
+		background-color: v.$color-danger;
+	}
+}

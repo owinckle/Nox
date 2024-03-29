@@ -12,4 +12,23 @@ form {
 			margin-bottom: 0.5rem;
 		}
 	}
+
+	.color-selector {
+		display: flex;
+		gap: 10px;
+
+		.color-selector__color {
+			height: 20px;
+			width: 20px;
+			border-radius: 50%;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			svg {
+				font-size: 0.8rem;
+			}
+		}
+	}
 }

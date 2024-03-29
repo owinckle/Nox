@@ -9,6 +9,7 @@ interface ModalProps {
 	onClose: () => void;
 	submitLabel?: string;
 	closeLabel?: string;
+	dangerModal?: boolean;
 	children: React.ReactNode;
 }
 
@@ -18,6 +19,7 @@ const Modal = ({
 	onClose,
 	submitLabel = "Submit",
 	closeLabel = "Close",
+	dangerModal,
 	children,
 }: ModalProps) => {
 	const [closing, setClosing] = useState(false);
@@ -63,10 +65,16 @@ const Modal = ({
 				</div>
 				<div className="modal__body">{children}</div>
 				<div className="modal__footer">
-					<Button onClick={submitHandler} variant="success">
+					<Button
+						onClick={submitHandler}
+						variant={dangerModal ? "danger" : "success"}
+					>
 						{submitLabel}
 					</Button>
-					<Button onClick={closeHandler} variant="danger">
+					<Button
+						onClick={closeHandler}
+						variant={dangerModal ? "success" : "danger"}
+					>
 						{closeLabel}
 					</Button>
 				</div>

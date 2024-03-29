@@ -22,7 +22,9 @@ INSTALLED_APPS = [
 	"subscriptions",
 	"webhooks",
 	"pages",
-	"app"
+	"spaces",
+	"gamify",
+	"boards"
 ]
 
 

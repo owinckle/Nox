@@ -1,0 +1,83 @@
+@use "../../styles/variables" as v;
+
+.auth {
+	height: 100vh;
+	background-color: v.$color-bg-primary;
+
+	&__header {
+		padding: 0 20px;
+		height: 60px;
+		display: flex;
+		align-items: center;
+
+		&__site {
+			font-size: 1.6rem;
+			font-weight: 600;
+			font-family: "Raleway", sans-serif;
+		}
+	}
+
+	&__modal {
+		max-width: 400px;
+		width: 100%;
+		padding: 25px;
+		background: v.$color-bg-secondary;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+		border: 1px solid v.$color-border;
+		border-radius: v.$border-radius;
+		position: relative;
+		top: calc(50% - 60px);
+		left: 50%;
+		transform: translate(-50%, -50%);
+
+		&__title {
+			font-size: 1.6rem;
+			font-weight: 500;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+
+		&__subtitle {
+			font-size: 1rem;
+			margin-bottom: 20px;
+			color: v.$color-subtext;
+			text-align: center;
+		}
+
+		&__separator {
+			width: 100%;
+			max-width: 400px;
+			display: flex;
+			margin: 20px 0;
+			align-items: center;
+
+			&__line {
+				flex: 1;
+				height: 1px;
+				background-color: v.$color-border;
+			}
+
+			&__text {
+				font-size: 0.9rem;
+				color: v.$color-subtext;
+				margin: 0 10px;
+			}
+		}
+
+		&__links {
+			margin-top: 20px;
+
+			&__link {
+			}
+		}
+	}
+}
+/*
+<div className="auth__modal__seperator">
+					<div className="auth__modal__seperator__line"></div>
+					<div className="auth__modal__separator__text">
+						or continue with
+					</div>
+					<div className="auth__modal__seperator__line"></div>
+				</div>
+*/

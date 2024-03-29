@@ -1,3 +1,4 @@
+import { log } from "console";
 import "./styles.scss";
 import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
@@ -37,6 +38,7 @@ interface SidebarItemProps {
 	icon?: React.ReactNode;
 	label: string;
 	target?: string;
+	partialTarget?: string;
 	onClick?: () => void | false;
 }
 
@@ -44,6 +46,7 @@ export const SidebarItem = ({
 	icon,
 	label,
 	target,
+	partialTarget,
 	onClick,
 }: SidebarItemProps) => {
 	if (onClick) {
@@ -60,7 +63,13 @@ export const SidebarItem = ({
 		useEffect(() => {
 			// Get the path but remove the last / if any
 			const pathStripped = location.pathname.replace(/\/$/, "");
-			setActive(location.pathname === target || pathStripped === target);
+			if (!partialTarget) {
+				setActive(
+					location.pathname === target || pathStripped === target
+				);
+			} else {
+				setActive(location.pathname.includes(partialTarget));
+			}
 		}, [location, target]);
 
 		return (
@@ -93,7 +102,7 @@ export const SidebarSection = ({
 		if (collapse && contentRef.current) {
 			setHeight(collapsed ? 0 : contentRef.current.scrollHeight);
 		}
-	}, [collapsed, collapse]);
+	}, [collapsed, collapse, children]);
 
 	return (
 		<div className="sidebar__section">

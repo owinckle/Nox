@@ -24,6 +24,7 @@
 	flex-direction: column;
 	gap: 25px;
 	padding: 25px;
+	max-width: calc(100vw - v.$sidebar-width - 30px);
 
 	&.layout--medium {
 		max-width: 1200px;
@@ -48,6 +49,26 @@
 
 		.layout__subtitle {
 			color: v.$color-subtext;
+		}
+
+		.layout-nav {
+			display: flex;
+			gap: 15px;
+
+			.layout-nav__item {
+				cursor: pointer;
+				transition: color 0.2s ease-in-out;
+				color: v.$color-subtext;
+				font-weight: 500;
+
+				&:hover {
+					color: v.$color-text;
+				}
+
+				&.active {
+					color: v.$color-accent;
+				}
+			}
 		}
 	}
 }

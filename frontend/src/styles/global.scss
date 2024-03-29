@@ -1,6 +1,6 @@
 @use "variables" as v;
 
-@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
 // Global Styles with Necessary Resets
 * {
@@ -20,6 +20,7 @@
 
 *::-webkit-scrollbar {
 	width: 6px;
+	height: 6px;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -35,7 +36,7 @@ p {
 }
 
 body {
-	font-family: "Raleway", sans-serif;
+	font-family: "Inter", sans-serif;
 	background-color: v.$color-bg-primary;
 	color: v.$color-text;
 	overflow-x: hidden;
@@ -76,18 +77,54 @@ input {
 // Additional global styles based on the palette
 .text-sub {
 	color: v.$color-subtext;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-subtext, 10%);
+		}
+	}
 }
 
 .success {
 	color: v.$color-success;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-success, 10%);
+		}
+	}
 }
 
 .warning {
 	color: v.$color-warning;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-warning, 10%);
+		}
+	}
 }
 
 .danger {
 	color: v.$color-danger;
+
+	&.hover {
+		transition: color 0.2s ease-in-out;
+		cursor: pointer;
+
+		&:hover {
+			color: lighten(v.$color-danger, 10%);
+		}
+	}
 }
 
 .accent {
@@ -117,4 +154,10 @@ input {
 .toast-danger {
 	// background-color: v.$color-danger;
 	background-color: yellow;
+}
+
+.circle {
+	border-radius: 50%;
+	height: 50%;
+	aspect-ratio: 1;
 }

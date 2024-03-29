@@ -1,0 +1,115 @@
+@use "../../styles/variables" as v;
+
+.space {
+	.space__addons {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 25%));
+		gap: 25px;
+
+		.card__body {
+			height: calc(100% - 34px); // MAGIC
+			justify-content: space-between;
+		}
+
+		.space__addon__description {
+			line-height: 1.6;
+			color: v.$color-subtext;
+		}
+	}
+
+	.create-btn {
+		position: fixed;
+		bottom: 25px;
+		right: 25px;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+		border: 2px solid v.$color-border;
+		padding: 10px 15px;
+		border-radius: v.$border-radius;
+		cursor: pointer;
+		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+		transition: border-color 0.2s ease-in-out,
+			background-color 0.2s ease-in-out;
+
+		svg {
+			font-size: 20px;
+		}
+
+		&:hover {
+			border-color: v.$color-accent;
+			background-color: v.$color-accent;
+		}
+	}
+
+	.space__roadmap {
+		display: flex;
+		gap: 25px;
+		overflow: auto;
+		padding-bottom: 25px;
+		height: calc(100vh - 50px - 51px - 65px); // MAGIC
+		width: calc(100vw - v.$sidebar-width - 25px);
+
+		.card {
+			$width: calc((100vw - v.$sidebar-width - 50px - 180px) / 4);
+			min-width: $width;
+			max-width: $width;
+			height: fit-content;
+
+			.roadmap__item {
+				border-bottom: 1px solid v.$color-border;
+				padding-bottom: 15px;
+				cursor: pointer;
+
+				&:last-child {
+					border-bottom: none;
+					padding-bottom: 0;
+				}
+
+				&:hover {
+					.roadmap__item__title {
+						color: v.$color-accent;
+					}
+				}
+
+				.roadmap__item__title {
+					font-weight: 600;
+					margin-bottom: 10px;
+					transition: color 0.2s ease-in-out;
+				}
+
+				.roadmap__item__description {
+					color: v.$color-subtext;
+				}
+			}
+		}
+	}
+
+	.space__roadmap__board-order-list {
+		margin-top: 5px;
+		display: flex;
+		gap: 10px;
+		flex-direction: column;
+
+		.space__roadmap__board--order-list__item {
+			color: v.$color-subtext;
+
+			&.current {
+				color: v.$color-text;
+				display: flex;
+				gap: 5px;
+				align-items: center;
+
+				svg {
+					cursor: pointer;
+					transition: color 0.2s ease-in-out;
+
+					&:hover {
+						color: v.$color-accent;
+					}
+				}
+			}
+		}
+	}
+}

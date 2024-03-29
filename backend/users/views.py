@@ -17,11 +17,12 @@ User = get_user_model()
 stripe.api_key = config("STRIPE_SECRET_KEY")
 
 
-class  UserRegistrationAPIView(APIView):
+class UserRegistrationAPIView(APIView):
 	def post(self, request):
 		user_data = request.data
-	
+
 		if User.objects.filter(email=user_data["email"]).exists():
+			print("Email already exists")
 			return Response({"error": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
 		try:
@@ -33,8 +34,7 @@ class  UserRegistrationAPIView(APIView):
 
 			user.first_name = user_data["name"]
 			user.save()
-			profile = Profile.objects.create(user=user)
-
+			Profile.objects.create(user=user)
 
 			free_plan = Plan.objects.get(name="Free")
 			stripe_customer = stripe.Customer.create(email=user_data["email"])
@@ -46,6 +46,7 @@ class  UserRegistrationAPIView(APIView):
 			)
 
 		except Exception as e:
+			print(str(e))
 			return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 		token, _ = Token.objects.get_or_create(user=user)
@@ -112,7 +113,6 @@ class GoogleAuth(APIView):
 			user = User(email=google_data["email"], username=google_data["email"])
 			user.first_name = google_data["given_name"]
 			user.last_name = google_data["family_name"]
-			# Perhaps use the picture from google as the profile picture
 			user.set_unusable_password()
 			user.save()
 			profile = Profile.objects.create(user=user, is_social=True)
